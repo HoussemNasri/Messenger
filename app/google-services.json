@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1044474436835",
+    "project_id": "messenger-fb04d",
+    "storage_bucket": "messenger-fb04d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1044474436835:android:499d1152624399bbcf79d6",
+        "android_client_info": {
+          "package_name": "com.nasri.messenger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1044474436835-7huhqseetng4mmhnje119luq7g30ettb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA03Xuyfhxxt6HJ0tVPvvqiZf5WIix9Rd8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1044474436835-7huhqseetng4mmhnje119luq7g30ettb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
