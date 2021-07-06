@@ -7,6 +7,9 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
-    <string name="sign_in_label">Log in</string>
+    <string name="sign_in_label">Sign in</string>
     <string name="sign_up_label">Sign up</string>
+    <string name="log_in">Log in</string>
+    <string name="password_label">Password</string>
+    <string name="email_label">Email</string>
 </resources>

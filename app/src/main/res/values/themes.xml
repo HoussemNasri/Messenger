@@ -26,6 +26,7 @@
         <item name="colorOnSecondary">@color/color_on_secondary</item>
 
 
+
         <!-- Window decor -->
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="android:statusBarColor">@color/transparent</item>
@@ -50,6 +51,7 @@
     </style>
 
 
+
     <style name="AlertDialog.Theme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="alertDialogStyle">@style/AlertDialog.Style</item>
 
@@ -62,6 +64,16 @@
     <style name="AlertDialog.ShapeAppearance" parent="ShapeAppearance.MaterialComponents.MediumComponent">
         <item name="cornerSize">20dp</item>
     </style>
+
+    <!-- Alert Dialog -->
+    <style name="progressDialog" parent="Theme.AppCompat.Dialog">
+        <item name="colorAccent">?attr/colorOnSurface</item>
+        <item name="android:colorBackground">@color/black</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+
+    </style>
+
+
 
 
 </resources>
