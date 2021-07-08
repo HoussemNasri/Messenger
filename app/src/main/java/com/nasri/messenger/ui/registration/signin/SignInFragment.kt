@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -33,10 +34,11 @@ class SignInFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupSignUpLink()
+        clearErrorOnTextChanged()
 
         binding.signInButton.setOnClickListener {
-            val email = binding.emailTextField.text.toString()
-            val password = binding.passwordTextField.text.toString()
+            val email = binding.emailTextField.editText?.text.toString()
+            val password = binding.passwordTextField.editText?.text.toString()
 
             if (email.isBlank()) {
                 binding.emailTextField.error = "Email cannot be blank"
@@ -73,12 +75,26 @@ class SignInFragment : Fragment() {
                 ProgressDialogUtil.dismiss()
             }
         })
+        ProgressDialogUtil.showProgressDialog(requireContext())
+    }
 
+    private fun clearErrorOnTextChanged() {
+        binding.emailTextField.editText?.addTextChangedListener {
+            if (it?.length ?: 0 > 0) {
+                binding.emailTextField.error = null
+            }
+        }
+
+        binding.passwordTextField.editText?.addTextChangedListener {
+            if (it?.length ?: 0 > 0) {
+                binding.passwordTextField.error = null
+            }
+        }
     }
 
     private fun resetInputFields() {
-        binding.emailTextField.setText("")
-        binding.passwordTextField.setText("")
+        binding.emailTextField.editText?.setText("")
+        binding.passwordTextField.editText?.setText("")
         binding.passwordTextField.clearFocus()
         binding.emailTextField.clearFocus()
     }

@@ -1,39 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
 
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:background="@drawable/progress_bg">
 
-    <com.google.android.material.progressindicator.CircularProgressIndicator
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/centre_wrap"
+    android:layout_width="180dp"
+    android:layout_height="90dp"
+    android:layout_marginBottom="?attr/actionBarSize"
+    android:background="@drawable/progress_bg"
+    android:gravity="center"
+    android:minWidth="180dp"
+    android:minHeight="80dp"
+    android:orientation="vertical"
+    android:theme="@style/AppTheme">
+
+    <ProgressBar
         android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:indeterminate="true"
-        app:indicatorSize="32dp"
-        app:trackThickness="3dp"
-        app:indicatorColor="?attr/colorOnSurface"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="5dp"
-/>
+        android:progressTint="#ff4586"
+        android:progress="100"
+        style="@style/AppThemeProgressBar"/>
 
-    <TextView
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="12dp"
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvTip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-
-        android:layout_below="@id/progressBar"
-        android:gravity="center"
-        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
         android:text="Loading..."
-        android:textColor="@android:color/white"
-        android:textSize="16sp" />
-
-</RelativeLayout>
+        android:textColor="?attr/colorOnSurface"/>
+</LinearLayout>

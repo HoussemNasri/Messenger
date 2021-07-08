@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="background">@color/light_black_20</color>
+
+    <color name="toolbarColor">#363636</color>
+
+    <color name="buttonColor">@color/light_gray_30</color>
+</resources>

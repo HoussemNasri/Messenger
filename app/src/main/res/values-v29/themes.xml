@@ -3,7 +3,7 @@
 
     <style name="Base.AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimary">@color/accent</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorSecondary">?attr/colorPrimary</item>
         <item name="colorOnSecondary">@color/color_on_secondary</item>

@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.Toolbar
+<com.google.android.material.appbar.MaterialToolbar
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:minHeight="?attr/actionBarSize"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:titleTextAppearance="@style/TextAppearance.MaterialComponents.Headline3"
-    app:title="Placeholder"
-    android:background="@color/transparent">
+    app:title="LOGIN"
+    android:layout_gravity="center_horizontal"
+    app:titleCentered="true"
+    android:background="@color/toolbarColor"
+    app:titleTextAppearance="@style/AppThemeToolbar.TextAppearance"
+
+>
 
 
-</androidx.appcompat.widget.Toolbar>
+</com.google.android.material.appbar.MaterialToolbar>

@@ -27,7 +27,7 @@ class RegistrationActivity : AppCompatActivity() {
         val navController = host.navController
 
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.signInFragment, R.id.signUpFragment)
+            setOf(R.id.signInFragment)
         )
 
         setupActionBarWithNavController(navController, appBarConfiguration)

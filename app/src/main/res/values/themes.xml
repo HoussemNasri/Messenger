@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2019 Google LLC
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,28 +17,57 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="Base.AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/color_primary</item>
-        <item name="colorPrimaryDark">@color/color_primary_dark</item>
-        <item name="colorSecondary">?attr/colorPrimary</item>
-        <item name="colorOnSecondary">@color/color_on_secondary</item>
-
-
-
+    <style name="BaseAppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Window decor -->
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="android:statusBarColor">@color/transparent</item>
 
-
         <!-- Dialogs -->
         <item name="materialAlertDialogTheme">@style/AlertDialog.Theme</item>
 
+        <!-- Buttons -->
+        <item name="materialButtonStyle">@style/AppButtonStyle</item>
 
+        <item name="android:colorBackground">@color/background</item>
+        <item name="toolbarStyle">@style/AppThemeToolbar</item>
+        <item name="appBarLayoutStyle">@style/AppThemeToolbar</item>
+
+        <item name="android:textViewStyle">@style/AppTheme.TextView</item>
+    </style>
+
+    <style name="AppTheme.TextView" parent="Widget.AppCompat.TextView">
+        <item name="fontFamily">@font/livesport_regular</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
 
-    <style name="AppTheme" parent="Base.AppTheme" />
+    <style name="AppThemeToolbar.TextAppearance"  parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="fontFamily">@font/livesport_bold</item>
+        <item name="android:textSize">26sp</item>
+    </style>
+
+    <style name="AppThemeToolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="backgroundTint">@color/yellow_50</item>
+    </style>
+
+    <style name="AppTheme" parent="BaseAppTheme">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/deep_sky_blue</item>
+        <item name="colorPrimaryDark">@color/warm_blue</item>
+        <item name="colorSecondary">?attr/colorPrimary</item>
+        <item name="colorOnSecondary">@color/color_on_secondary</item>
+    </style>
+
+
+    <style name="AppButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="cornerRadius">10dp</item>
+        <item name="android:paddingBottom">15dp</item>
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="backgroundTint">@color/buttonColor</item>
+        <item name="android:textColor">@color/background</item>
+    </style>
+
 
     <style name="AppTheme.Launcher">
         <item name="android:windowBackground">@drawable/splash_bg</item>
@@ -49,7 +77,6 @@
     <style name="AppTheme.Detail">
 
     </style>
-
 
 
     <style name="AlertDialog.Theme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
@@ -70,10 +97,24 @@
         <item name="colorAccent">?attr/colorOnSurface</item>
         <item name="android:colorBackground">@color/black</item>
         <item name="android:windowBackground">@android:color/transparent</item>
-
     </style>
 
+    <style name="centeredBlockingDialogContainer">
+        <item name="android:gravity">left|center_horizontal|clip_horizontal</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+    </style>
 
+    <style name="AppThemeProgressBar" parent="Widget.AppCompat.ProgressBar">
+        <item name="android:maxWidth">32dp</item>
+        <item name="android:maxHeight">32dp</item>
+        <item name="android:indeterminate">true</item>
+        <item name="android:minWidth">32dp</item>
+        <item name="android:minHeight">32dp</item>
+        <item name="colorAccent">?attr/colorOnSurface</item>
+        <item name="android:progressTint">#f47a65</item>
+        <item name="android:indeterminateTint">?attr/colorOnSurface</item>
+    </style>
 
 
 </resources>

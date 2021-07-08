@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".ui.registration.signin.SignInFragment"
     android:layout_marginLeft="12dp"
-    android:layout_marginTop="24dp"
     android:layout_marginRight="12dp"
-    tools:context=".ui.registration.signin.SignInFragment">
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp">
 
 
     <TextView
@@ -31,7 +32,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/sign_in_with_google"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,65 +45,67 @@
             android:layout_height="8dp"
             android:layout_weight="0" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/sign_in_with_facebook"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Facebook" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/form"
-        android:layout_width="0dp"
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/email_text_field"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/third_party_layout">
+        app:errorEnabled="true"
+        app:errorIconDrawable="@null"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/third_party_layout"
+        app:startIconDrawable="@drawable/ic_baseline_email_24">
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:startIconDrawable="@drawable/ic_baseline_email_24">
+            android:layout_height="wrap_content"
+            android:hint="@string/email_label" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/email_text_field"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/email_label" />
-        </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/password_text_field"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:errorIconDrawable="@null"
+        app:errorEnabled="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/email_text_field"
+        app:passwordToggleEnabled="true"
+        app:startIconDrawable="@drawable/ic_baseline_lock_24">
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="30dp"
-            app:passwordToggleEnabled="true"
-            app:startIconDrawable="@drawable/ic_baseline_lock_24">
+            android:layout_height="wrap_content"
+            android:hint="@string/password_label" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/password_text_field"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/password_label" />
-        </com.google.android.material.textfield.TextInputLayout>
 
-    </LinearLayout>
-
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/sign_in_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
 
+        android:layout_marginTop="9dp"
         android:text="@string/sign_in_label"
         android:textAllCaps="false"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/form" />
+        app:layout_constraintTop_toBottomOf="@id/password_text_field" />
 
     <TextView
         android:id="@+id/dont_have_account_textview"
