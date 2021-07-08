@@ -12,4 +12,7 @@
     <string name="log_in">Log in</string>
     <string name="password_label">Password</string>
     <string name="email_label">Email</string>
+    <string name="error_email_blank">Email cannot be blank</string>
+    <string name="error_email_formatting">Email is badly formatted</string>
+    <string name="error_password_blank">Password cannot be blank</string>
 </resources>

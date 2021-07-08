@@ -8,20 +8,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.klinker.android.link_builder.Link
 import com.klinker.android.link_builder.applyLinks
 import com.nasri.messenger.R
 import com.nasri.messenger.databinding.FragmentSignInBinding
+import com.nasri.messenger.domain.result.data
+import com.nasri.messenger.domain.result.succeeded
+import com.nasri.messenger.ui.base.BaseFragment
 import com.nasri.messenger.ui.ProgressDialogUtil
 
 
-class SignInFragment : Fragment() {
+class SignInFragment : BaseFragment() {
     private lateinit var binding: FragmentSignInBinding
 
     private val viewModel: SignInViewModel by viewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,25 +44,28 @@ class SignInFragment : Fragment() {
             val password = binding.passwordTextField.editText?.text.toString()
 
             if (email.isBlank()) {
-                binding.emailTextField.error = "Email cannot be blank"
+                binding.emailTextField.error = getString(R.string.error_email_blank)
             } else if (!isEmailValid(email)) {
-                binding.emailTextField.error = "Email is badly formatted"
+                binding.emailTextField.error = getString(R.string.error_email_formatting)
             }
 
             if (password.isBlank()) {
-                binding.passwordTextField.error = "Password cannot be blank"
+                binding.passwordTextField.error = getString(R.string.error_password_blank)
             }
 
             if (email.isNotBlank() && password.isNotBlank() && isEmailValid(email)) {
-                ProgressDialogUtil.showProgressDialog(requireContext())
+                showProgress()
                 viewModel.onEmailSignIn(email, password)
             }
 
         }
 
-        viewModel.userAuthenticated.observe(viewLifecycleOwner, {
-            if (it.isSuccess) {
+        viewModel.authenticatedUserInfo.observe(viewLifecycleOwner, {
+            if (it.succeeded && it != null) {
+                // TODO (Save user info in SharedPreferences)
+                preferenceStorage.saveAuthenticatedUser(it.data!!)
                 findNavController().navigate(R.id.action_signInFragment_to_mainActivity)
+
             } else {
                 Toast.makeText(
                     this@SignInFragment.context,
@@ -75,7 +81,6 @@ class SignInFragment : Fragment() {
                 ProgressDialogUtil.dismiss()
             }
         })
-        ProgressDialogUtil.showProgressDialog(requireContext())
     }
 
     private fun clearErrorOnTextChanged() {
@@ -101,11 +106,6 @@ class SignInFragment : Fragment() {
 
     private fun isEmailValid(target: String): Boolean {
         return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        ProgressDialogUtil.dismiss()
     }
 
 

@@ -18,6 +18,7 @@ package com.nasri.messenger.domain.result
 
 import androidx.lifecycle.MutableLiveData
 import com.nasri.messenger.domain.result.Result.Success
+import java.lang.Error
 
 /**
  * A generic class that holds a value with its loading status.
@@ -28,6 +29,14 @@ sealed class Result<out R> {
     data class Success<out T>(val data: T) : Result<T>()
     data class Error(val exception: Exception) : Result<Nothing>()
     object Loading : Result<Nothing>()
+
+    fun exceptionOrNull(): Throwable? {
+        return if (this is Error) {
+            this.exception
+        } else {
+            null
+        }
+    }
 
     override fun toString(): String {
         return when (this) {

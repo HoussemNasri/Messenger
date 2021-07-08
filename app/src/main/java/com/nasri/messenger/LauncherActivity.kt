@@ -4,26 +4,27 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import com.nasri.messenger.LaunchDestination.MAIN_ACTIVITY
 import com.nasri.messenger.LaunchDestination.REGISTRATION
-import com.nasri.messenger.data.PreferenceStorage
 import com.nasri.messenger.domain.prefs.UserLoggedInUseCase
+import com.nasri.messenger.ui.base.BaseActivity
 import com.nasri.messenger.ui.registration.RegistrationActivity
 import timber.log.Timber
 
-class LauncherActivity : AppCompatActivity() {
+class LauncherActivity : BaseActivity() {
 
     private lateinit var viewModelFactory: LaunchViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN or
+                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
 
-        viewModelFactory = LaunchViewModelFactory(UserLoggedInUseCase(PreferenceStorage()))
+        viewModelFactory =
+            LaunchViewModelFactory(UserLoggedInUseCase(preferenceStorage))
 
         val viewModel: LaunchViewModel by viewModels { viewModelFactory }
 
