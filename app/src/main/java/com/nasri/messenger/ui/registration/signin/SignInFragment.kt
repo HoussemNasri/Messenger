@@ -30,7 +30,7 @@ import com.nasri.messenger.ui.base.BaseFragment
 
 class SignInFragment : BaseFragment() {
     companion object {
-        val GOOGLE_SIGN_IN = 123
+        const val GOOGLE_SIGN_IN = 123
     }
 
     private lateinit var binding: FragmentSignInBinding
