@@ -18,4 +18,5 @@
 
     <string name="google_clent_id">93704692856-lndar71ddtoh86dp6381ts99t7sg454f.apps.googleusercontent.com</string>
     <string name="google_client_secret">b61Jw8IlFIbls9j5ePr4bBpk</string>
+    <string name="dialog_loading_label">Loading...</string>
 </resources>

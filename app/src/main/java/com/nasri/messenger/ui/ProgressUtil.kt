@@ -13,6 +13,7 @@ import com.nasri.messenger.R
 /**
  * Time consuming dialog tool class
  */
+@Deprecated("This class is replaced by @{DialogManager}")
 object ProgressDialogUtil {
     private var mAlertDialog: AlertDialog? = null
 
@@ -54,7 +55,7 @@ object ProgressDialogUtil {
      * Hide time-consuming dialogs
      */
     fun dismiss() {
-        if (mAlertDialog != null && mAlertDialog!!.isShowing()) {
+        if (mAlertDialog != null && mAlertDialog!!.isShowing) {
             mAlertDialog!!.dismiss()
         }
     }

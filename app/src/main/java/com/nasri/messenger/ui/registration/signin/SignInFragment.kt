@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.auth.GoogleAuthUtil
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -24,8 +25,8 @@ import com.nasri.messenger.R
 import com.nasri.messenger.databinding.FragmentSignInBinding
 import com.nasri.messenger.domain.result.data
 import com.nasri.messenger.domain.result.succeeded
-import com.nasri.messenger.ui.ProgressDialogUtil
 import com.nasri.messenger.ui.base.BaseFragment
+import timber.log.Timber
 
 
 class SignInFragment : BaseFragment() {
@@ -44,9 +45,11 @@ class SignInFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         binding = FragmentSignInBinding.inflate(inflater, container, false)
         return binding.root
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -69,7 +72,6 @@ class SignInFragment : BaseFragment() {
             }
 
             if (email.isNotBlank() && password.isNotBlank() && isEmailValid(email)) {
-                showProgress()
                 viewModel.performEmailSignIn(email, password)
             }
 
@@ -92,12 +94,16 @@ class SignInFragment : BaseFragment() {
             }
         })
 
-        viewModel.dismissProgressDialogAction.observe(viewLifecycleOwner, {
-            if (!it.hasBeenHandled) {
-                ProgressDialogUtil.dismiss()
+        viewModel.showProgress.observe(viewLifecycleOwner, {
+            Timber.d("Context : %s", context.toString())
+            if (it) {
+                dialogManager.showProgressDialog()
+            } else {
+                dialogManager.hideProgressDialog()
             }
         })
     }
+
 
     private fun setupGoogleSignIn() {
         val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -106,6 +112,7 @@ class SignInFragment : BaseFragment() {
             .build()
         googleSignInClient = GoogleSignIn.getClient(requireContext(), googleSignInOptions)
         binding.signInWithGoogle.setOnClickListener {
+            Timber.d(GoogleSignIn.getLastSignedInAccount(requireContext())?.displayName ?: "*")
             startActivityForResult(googleSignInClient.signInIntent, GOOGLE_SIGN_IN)
         }
     }

@@ -13,7 +13,9 @@ import com.nasri.messenger.databinding.FragmentSignInBinding
 
 class RegistrationActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
-
+    override fun onResume() {
+        super.onResume()
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)

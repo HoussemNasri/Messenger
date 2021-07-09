@@ -26,11 +26,13 @@ class SignInViewModel : ViewModel(), OnCompleteListener<AuthResult>, OnFailureLi
     val authenticatedUserInfo: LiveData<Result<AuthenticatedUserInfo>>
         get() = _authenticatedUserInfo
 
-    val dismissProgressDialogAction: MutableLiveData<Event<Unit>> = MutableLiveData()
+    val showProgress = MutableLiveData<Boolean>(false)
+
 
 
     /** Sign In using email and password */
     fun performEmailSignIn(email: String, password: String) {
+        showProgress.postValue(true)
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this)
             .addOnFailureListener(this)
@@ -38,6 +40,7 @@ class SignInViewModel : ViewModel(), OnCompleteListener<AuthResult>, OnFailureLi
 
     /** Sign In using credentials */
     fun performCredentialSignIn(credential: AuthCredential) {
+        showProgress.postValue(true)
         FirebaseAuth.getInstance().signInWithCredential(credential)
             .addOnCompleteListener(this)
             .addOnFailureListener(this)
@@ -46,20 +49,20 @@ class SignInViewModel : ViewModel(), OnCompleteListener<AuthResult>, OnFailureLi
 
 
     override fun onComplete(it: Task<AuthResult>) {
+        showProgress.postValue(false)
         if (it.isSuccessful) {
             val firebaseUser = it.result?.user
             _authenticatedUserInfo.postValue(Result.Success(FirebaseUserInfo(firebaseUser)))
-            dismissProgressDialogAction.postValue(Event(Unit))
         }
     }
 
     override fun onFailure(it: Exception) {
+        showProgress.postValue(false)
         _authenticatedUserInfo.postValue(Result.Error(it))
-        dismissProgressDialogAction.postValue(Event(Unit))
     }
 
     override fun onCanceled() {
-        dismissProgressDialogAction.postValue(Event(Unit))
+        showProgress.postValue(false)
     }
 
 
