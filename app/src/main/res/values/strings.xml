@@ -15,4 +15,7 @@
     <string name="error_email_blank">Email cannot be blank</string>
     <string name="error_email_formatting">Email is badly formatted</string>
     <string name="error_password_blank">Password cannot be blank</string>
+
+    <string name="google_clent_id">93704692856-lndar71ddtoh86dp6381ts99t7sg454f.apps.googleusercontent.com</string>
+    <string name="google_client_secret">b61Jw8IlFIbls9j5ePr4bBpk</string>
 </resources>

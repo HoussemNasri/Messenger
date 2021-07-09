@@ -1,6 +1,7 @@
 package com.nasri.messenger.domain.user
 
 import android.net.Uri
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserInfo
 

@@ -2,8 +2,13 @@ package com.nasri.messenger.data
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.annotation.WorkerThread
+import androidx.core.content.edit
 import com.nasri.messenger.domain.user.AuthenticatedUserInfo
 import com.nasri.messenger.domain.user.LocalUserInfo
+import timber.log.Timber
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 
 
 /**
@@ -34,7 +39,7 @@ class SharedPreferenceStorage constructor(
         }
     }
 
-    override var isUserLoggedIn: Boolean = prefs.value.getBoolean(IS_SIGNED_IN, false)
+    override var isUserLoggedIn by BooleanPreference(prefs, IS_SIGNED_IN, false)
 
     override fun saveAuthenticatedUser(userInfo: AuthenticatedUserInfo) {
         prefs.value.edit().apply {
@@ -104,5 +109,21 @@ class SharedPreferenceStorage constructor(
         const val AUTH_PROVIDER_ID = "user_provider_id"
         const val AUTH_LAST_SIGNIN = "user_last_sign_in_timestamp"
         const val AUTH_ACCOUNT_CREATION = "user_account_creation_timestamp"
+    }
+
+    class BooleanPreference(
+        private val preferences: Lazy<SharedPreferences>,
+        private val name: String,
+        private val defaultValue: Boolean
+    ) : ReadWriteProperty<Any, Boolean> {
+
+        @WorkerThread
+        override fun getValue(thisRef: Any, property: KProperty<*>): Boolean {
+            return preferences.value.getBoolean(name, defaultValue)
+        }
+
+        override fun setValue(thisRef: Any, property: KProperty<*>, value: Boolean) {
+            preferences.value.edit { putBoolean(name, value) }
+        }
     }
 }
