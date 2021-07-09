@@ -7,10 +7,13 @@ import androidx.activity.viewModels
 import com.google.firebase.auth.FirebaseAuth
 import com.nasri.messenger.LaunchDestination.MAIN_ACTIVITY
 import com.nasri.messenger.LaunchDestination.REGISTRATION
+import com.nasri.messenger.data.RegistrationUtil
 import com.nasri.messenger.domain.prefs.UserLoggedInUseCase
 import com.nasri.messenger.ui.base.BaseActivity
 import com.nasri.messenger.ui.registration.RegistrationActivity
+import org.json.JSONArray
 import timber.log.Timber
+
 
 class LauncherActivity : BaseActivity() {
 
@@ -24,8 +27,7 @@ class LauncherActivity : BaseActivity() {
             Timber.plant(Timber.DebugTree())
         }
         // TODO (Just for testing)
-        preferenceStorage.removeAuthenticatedUser()
-        FirebaseAuth.getInstance().signOut()
+        RegistrationUtil.signOutAllProviders(this)
 
         viewModelFactory =
             LaunchViewModelFactory(UserLoggedInUseCase(preferenceStorage))
