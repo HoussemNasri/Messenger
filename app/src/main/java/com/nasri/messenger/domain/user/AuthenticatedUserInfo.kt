@@ -1,9 +1,9 @@
 package com.nasri.messenger.domain.user
 
 import android.net.Uri
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserInfo
+import timber.log.Timber
 
 /**
  * Basic user info.
@@ -29,6 +29,8 @@ interface AuthenticatedUserInfo {
     fun getPhotoUrl(): Uri?
 
     fun getProviderId(): String?
+
+    fun getProviderData(): List<UserInfo>
 }
 
 
@@ -52,6 +54,8 @@ open class FirebaseUserInfo(
 
     override fun getProviderId(): String? = firebaseUser?.providerId
 
+    override fun getProviderData(): List<UserInfo> = firebaseUser?.providerData ?: emptyList()
+
     override fun getLastSignInTimestamp(): Long? = firebaseUser?.metadata?.lastSignInTimestamp
 
     override fun getCreationTimestamp(): Long? = firebaseUser?.metadata?.creationTimestamp
@@ -69,6 +73,7 @@ open class LocalUserInfo(
     private val providerId: String?,
     private val lastTimestamp: Long?,
     private val creationTimestamp: Long?,
+    private val providerData: List<UserInfo>,
 ) : AuthenticatedUserInfo {
     override fun getEmail(): String? = email
 
@@ -89,5 +94,7 @@ open class LocalUserInfo(
     override fun getPhotoUrl(): Uri? = Uri.parse(photoUrl)
 
     override fun getProviderId(): String? = providerId
+
+    override fun getProviderData(): List<UserInfo> = providerData
 
 }

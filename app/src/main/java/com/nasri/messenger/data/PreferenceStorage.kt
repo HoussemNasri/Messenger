@@ -2,11 +2,15 @@ package com.nasri.messenger.data
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.net.Uri
 import androidx.annotation.WorkerThread
 import androidx.core.content.edit
+import com.google.firebase.auth.UserInfo
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
+import com.nasri.messenger.domain.UriTypeAdapter
 import com.nasri.messenger.domain.user.AuthenticatedUserInfo
 import com.nasri.messenger.domain.user.LocalUserInfo
-import timber.log.Timber
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
@@ -53,9 +57,22 @@ class SharedPreferenceStorage constructor(
             putString(AUTH_PROVIDER_ID, userInfo.getProviderId())
             putLong(AUTH_LAST_SIGNIN, userInfo.getLastSignInTimestamp() ?: -1)
             putLong(AUTH_ACCOUNT_CREATION, userInfo.getCreationTimestamp() ?: -1)
+            putProviderDataString(this, userInfo.getProviderData())
             putBoolean(IS_SIGNED_IN, true)
         }.apply()
 
+    }
+
+    private fun putProviderDataString(
+        editor: SharedPreferences.Editor,
+        providerData: List<UserInfo>
+    ) {
+        val gson = GsonBuilder()
+            .registerTypeAdapter(Uri::class.java, UriTypeAdapter())
+            .create()
+        editor.putString(AUTH_PROVIDER_DATA, gson.toJson(
+            providerData.map { UserInfoGsonAdapter(it) }
+        ))
     }
 
     override fun removeAuthenticatedUser() {
@@ -70,6 +87,7 @@ class SharedPreferenceStorage constructor(
             remove(AUTH_PROVIDER_ID)
             remove(AUTH_LAST_SIGNIN)
             remove(AUTH_ACCOUNT_CREATION)
+            remove(AUTH_PROVIDER_DATA)
             putBoolean(IS_SIGNED_IN, false)
         }.apply()
     }
@@ -88,12 +106,31 @@ class SharedPreferenceStorage constructor(
         val providerID = prefs.value.getString(AUTH_PROVIDER_ID, "")
         val lastTimestamp = prefs.value.getLong(AUTH_LAST_SIGNIN, -1L)
         val creationTimestamp = prefs.value.getLong(AUTH_ACCOUNT_CREATION, -1L)
+        val providerDataJson = prefs.value.getString(AUTH_PROVIDER_DATA, "")
 
         return LocalUserInfo(
-            email, isAnonymous, phoneNumber, userID,
-            isEmailVerified, displayName, photoUrl, providerID, lastTimestamp, creationTimestamp
+            email,
+            isAnonymous,
+            phoneNumber,
+            userID,
+            isEmailVerified,
+            displayName,
+            photoUrl,
+            providerID,
+            lastTimestamp,
+            creationTimestamp,
+            deserializeProviderData(providerDataJson)
         )
 
+    }
+
+    private fun deserializeProviderData(providerData: String?): List<UserInfo> {
+        val userInfoTypeToken = object : TypeToken<List<UserInfoGsonAdapter>?>() {}.type
+        val gson = GsonBuilder()
+            .registerTypeAdapter(Uri::class.java, UriTypeAdapter())
+            .create()
+        return gson.fromJson(providerData, userInfoTypeToken) as List<UserInfoGsonAdapter>?
+            ?: emptyList()
     }
 
     companion object {
@@ -109,6 +146,7 @@ class SharedPreferenceStorage constructor(
         const val AUTH_PROVIDER_ID = "user_provider_id"
         const val AUTH_LAST_SIGNIN = "user_last_sign_in_timestamp"
         const val AUTH_ACCOUNT_CREATION = "user_account_creation_timestamp"
+        const val AUTH_PROVIDER_DATA = "user_provider_data"
     }
 
     class BooleanPreference(
