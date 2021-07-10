@@ -4,8 +4,7 @@
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/carolina_blue</item>
         <item name="colorPrimaryDark">@color/cornflower_blue</item>
-
-
+        <item name="android:windowLightStatusBar">false</item>
         <!-- Customize your theme here. -->
     </style>
 
