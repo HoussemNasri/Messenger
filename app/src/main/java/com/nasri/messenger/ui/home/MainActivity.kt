@@ -1,4 +1,4 @@
-package com.nasri.messenger
+package com.nasri.messenger.ui.home
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,9 +7,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
+import com.nasri.messenger.R
 import com.nasri.messenger.databinding.ActivityMainBinding
-import com.nasri.messenger.databinding.ToolbarBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

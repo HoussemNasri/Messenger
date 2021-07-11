@@ -7,7 +7,7 @@
     app:startDestination="@id/chatsFragment">
     <fragment
         android:id="@+id/chatsFragment"
-        android:name="com.nasri.messenger.ui.ChatsFragment"
+        android:name="com.nasri.messenger.ui.home.ChatsFragment"
         android:label="Chats"
         tools:layout="@layout/fragment_chats" />
 </navigation>

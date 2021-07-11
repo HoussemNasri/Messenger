@@ -31,7 +31,7 @@
         tools:layout="@layout/fragment_sign_up" />
     <activity
         android:id="@+id/mainActivity"
-        android:name="com.nasri.messenger.MainActivity"
+        android:name="com.nasri.messenger.ui.home.MainActivity"
         android:label="activity_main"
         tools:layout="@layout/activity_main" />
 </navigation>

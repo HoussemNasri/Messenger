@@ -10,7 +10,6 @@ import com.nasri.messenger.R
 
 class SignUpFragment : Fragment() {
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

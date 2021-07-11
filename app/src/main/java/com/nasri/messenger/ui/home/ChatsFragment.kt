@@ -1,14 +1,14 @@
-package com.nasri.messenger.ui
+package com.nasri.messenger.ui.home
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.nasri.messenger.R
+import com.nasri.messenger.ui.base.BaseFragment
 
 
-class ChatsFragment : Fragment(){
+class ChatsFragment : BaseFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

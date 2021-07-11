@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name="com.nasri.messenger.ui.registration.RegistrationActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".MainActivity" android:theme="@style/AppTheme" android:label="MainActivity"/>
+        <activity android:name=".ui.home.MainActivity" android:theme="@style/AppTheme" android:label="MainActivity"/>
         <activity
             android:name=".LauncherActivity"
             android:label="@string/title_activity_launcher"

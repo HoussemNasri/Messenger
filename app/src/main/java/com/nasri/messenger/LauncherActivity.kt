@@ -14,6 +14,7 @@ import com.nasri.messenger.data.UserInfoGsonAdapter
 import com.nasri.messenger.domain.UriTypeAdapter
 import com.nasri.messenger.domain.prefs.UserLoggedInUseCase
 import com.nasri.messenger.ui.base.BaseActivity
+import com.nasri.messenger.ui.home.MainActivity
 import com.nasri.messenger.ui.registration.RegistrationActivity
 import timber.log.Timber
 

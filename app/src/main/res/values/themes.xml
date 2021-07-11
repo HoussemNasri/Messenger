@@ -38,7 +38,11 @@
 
     <style name="AppTheme.TextView" parent="Widget.AppCompat.TextView">
         <item name="fontFamily">@font/livesport_regular</item>
-        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="AppTheme.TextAppearance.HeadLine" parent="TextAppearance.AppCompat.Headline">
+        <item name="fontFamily">@font/livesport_medium</item>
+        <item name="android:textSize">21sp</item>
     </style>
 
 
