@@ -57,6 +57,7 @@
         <item name="colorPrimaryDark">@color/warm_blue</item>
         <item name="colorSecondary">?attr/colorPrimary</item>
         <item name="colorOnSecondary">@color/color_on_secondary</item>
+        <item name="colorOnSurface">@color/light_black_20</item>
     </style>
 
 

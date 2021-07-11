@@ -2,6 +2,7 @@ package com.nasri.messenger.ui.registration.signin
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Patterns
@@ -81,8 +82,8 @@ class SignInFragment : BaseFragment() {
             if (it.succeeded && it != null) {
                 // TODO (Save user info in SharedPreferences)
                 preferenceStorage.saveAuthenticatedUser(it.data!!)
+                requireActivity().finish()
                 findNavController().navigate(R.id.action_signInFragment_to_mainActivity)
-                activity?.finish()
 
             } else {
                 Toast.makeText(
@@ -169,6 +170,7 @@ class SignInFragment : BaseFragment() {
         val signUpLink = Link(getString(R.string.sign_up_label))
             .setBold(true)
             .setUnderlined(false)
+            .setTextColor(Color.WHITE)
             .setOnClickListener {
                 findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
             }

@@ -360,7 +360,7 @@
     <color name="light_gray_40">#e6e6e6</color>
     <color name="light_gray_50">#dadada</color>
 
-    <color name="toolbarColor">@color/light_black_10</color>
+    <color name="toolbarColor">@color/light_gray_30</color>
 
     <color name="buttonColor">@color/light_gray_30</color>
 

@@ -15,21 +15,20 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_signInFragment_to_mainActivity"
-            app:destination="@id/mainActivity" />
+            app:destination="@id/mainActivity"
+            app:enterAnim="@anim/slide_in_right_activity"
+            app:exitAnim="@anim/slide_out_left_activity"
+            app:popEnterAnim="@anim/slide_in_left_activity"
+            app:popExitAnim="@anim/slide_out_right_activity" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.nasri.messenger.ui.registration.signup.SignUpFragment"
         android:label="REGISTRATION"
-        tools:layout="@layout/fragment_sign_up">
-        <action
-            android:id="@+id/action_signUpFragment_to_signInFragment"
-            app:destination="@id/signInFragment"
-            app:popUpTo="@id/signInFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_sign_up" />
     <activity
         android:id="@+id/mainActivity"
         android:name="com.nasri.messenger.MainActivity"

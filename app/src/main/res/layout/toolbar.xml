@@ -5,10 +5,11 @@
     android:minHeight="?attr/actionBarSize"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:title="LOGIN"
+    app:title="NOPE"
     android:layout_gravity="center_horizontal"
     app:titleCentered="true"
     android:background="@color/toolbarColor"
+    app:titleTextColor="?attr/colorOnSurface"
     app:titleTextAppearance="@style/AppThemeToolbar.TextAppearance"
 
 >
