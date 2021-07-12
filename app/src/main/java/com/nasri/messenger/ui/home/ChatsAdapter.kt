@@ -3,7 +3,7 @@ package com.nasri.messenger.ui.home
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.nasri.messenger.domain.home.ChatItemModel
+import com.nasri.messenger.domain.chat.ChatItemModel
 
 class ChatsAdapter(
     private val chatList: List<ChatItemModel>

@@ -1,4 +1,4 @@
-package com.nasri.messenger.data
+package com.nasri.messenger.data.gson
 
 import android.net.Uri
 import com.google.firebase.auth.UserInfo

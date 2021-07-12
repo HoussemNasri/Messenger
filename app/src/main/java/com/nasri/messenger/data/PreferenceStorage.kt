@@ -8,7 +8,8 @@ import androidx.core.content.edit
 import com.google.firebase.auth.UserInfo
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import com.nasri.messenger.domain.UriTypeAdapter
+import com.nasri.messenger.data.gson.UserInfoGsonAdapter
+import com.nasri.messenger.data.gson.UriTypeAdapter
 import com.nasri.messenger.domain.user.AuthenticatedUserInfo
 import com.nasri.messenger.domain.user.LocalUserInfo
 import kotlin.properties.ReadWriteProperty

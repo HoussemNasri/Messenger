@@ -10,8 +10,8 @@ import com.google.gson.GsonBuilder
 import com.nasri.messenger.LaunchDestination.MAIN_ACTIVITY
 import com.nasri.messenger.LaunchDestination.REGISTRATION
 import com.nasri.messenger.data.RegistrationUtil
-import com.nasri.messenger.data.UserInfoGsonAdapter
-import com.nasri.messenger.domain.UriTypeAdapter
+import com.nasri.messenger.data.gson.UserInfoGsonAdapter
+import com.nasri.messenger.data.gson.UriTypeAdapter
 import com.nasri.messenger.domain.prefs.UserLoggedInUseCase
 import com.nasri.messenger.ui.base.BaseActivity
 import com.nasri.messenger.ui.home.MainActivity
