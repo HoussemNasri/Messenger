@@ -7,7 +7,6 @@ import com.nasri.messenger.DialogManager
 import com.nasri.messenger.SimpleDialogManager
 import com.nasri.messenger.data.PreferenceStorage
 import com.nasri.messenger.data.SharedPreferenceStorage
-import com.nasri.messenger.ui.ProgressDialogUtil
 
 open class BaseFragment : Fragment() {
 

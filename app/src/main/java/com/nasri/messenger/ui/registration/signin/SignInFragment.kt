@@ -13,21 +13,28 @@ import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.gms.auth.GoogleAuthUtil
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.klinker.android.link_builder.Link
 import com.klinker.android.link_builder.applyLinks
 import com.nasri.messenger.R
 import com.nasri.messenger.databinding.FragmentSignInBinding
 import com.nasri.messenger.domain.result.data
 import com.nasri.messenger.domain.result.succeeded
+import com.nasri.messenger.domain.user.AuthenticatedUserInfo
 import com.nasri.messenger.ui.base.BaseFragment
 import timber.log.Timber
+import com.nasri.messenger.data.firebase.FirebaseConstants.*
+import com.nasri.messenger.data.firebase.FirebaseConstants.Companion.FIRE_COLL_USERS
+import com.nasri.messenger.data.firebase.FirebaseConstants.Companion.FIRE_DISPLAY_NAME
+import com.nasri.messenger.data.firebase.FirebaseConstants.Companion.FIRE_LAST_SIGN_IN
+import com.nasri.messenger.data.firebase.FirebaseConstants.Companion.FIRE_PHOTO_URL
 
 
 class SignInFragment : BaseFragment() {
@@ -80,7 +87,6 @@ class SignInFragment : BaseFragment() {
 
         viewModel.authenticatedUserInfo.observe(viewLifecycleOwner, {
             if (it.succeeded && it != null) {
-                // TODO (Save user info in SharedPreferences)
                 preferenceStorage.saveAuthenticatedUser(it.data!!)
                 requireActivity().finish()
                 findNavController().navigate(R.id.action_signInFragment_to_mainActivity)
@@ -106,11 +112,14 @@ class SignInFragment : BaseFragment() {
     }
 
 
+
+
     private fun setupGoogleSignIn() {
-        val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
+        val googleSignInOptions =
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
         googleSignInClient = GoogleSignIn.getClient(requireContext(), googleSignInOptions)
         binding.signInWithGoogle.setOnClickListener {
             Timber.d(GoogleSignIn.getLastSignedInAccount(requireContext())?.displayName ?: "*")
@@ -133,7 +142,11 @@ class SignInFragment : BaseFragment() {
                         )
                     )
                 } else {
-                    Toast.makeText(requireContext(), "Google sign in failed!", Toast.LENGTH_SHORT)
+                    Toast.makeText(
+                        requireContext(),
+                        "Google sign in failed!",
+                        Toast.LENGTH_SHORT
+                    )
                         .show()
                 }
             }
