@@ -36,20 +36,45 @@ class ChatsAdapter(
     class ChatItemViewHolder(
         itemView: View
     ) : RecyclerView.ViewHolder(itemView) {
-        val avatar = itemView.findViewById<ImageView>(R.id.contact_avatar_image_view)
-        val name = itemView.findViewById<TextView>(R.id.contact_name_text_view)
-        val deliveryDate = itemView.findViewById<TextView>(R.id.contact_last_message_date_text_view)
-        val unreadCount =
+        private val contactAvatarImageView =
+            itemView.findViewById<ImageView>(R.id.contact_avatar_image_view)
+        private val contactNameTextView =
+            itemView.findViewById<TextView>(R.id.contact_name_text_view)
+        private val messageDeliveryDateTextView =
+            itemView.findViewById<TextView>(R.id.contact_last_message_date_text_view)
+        private val unreadMessagesCountTextView =
             itemView.findViewById<TextView>(R.id.contact_unred_messages_count_text_view)
 
         fun bind(chatItemModel: RecentChatModel) {
-            name.text =
-                if (chatItemModel.contactName.isBlank()) "Anonymous" else chatItemModel.contactName
-            if (chatItemModel.conversationUnreadMessagesCount == 0) {
-                unreadCount.visibility = View.INVISIBLE
+            bindContactName(chatItemModel.contactName)
+            bindUnreadMessagesCount(chatItemModel.conversationUnreadMessagesCount)
+            bindMessageDeliveryDate(chatItemModel.conversationLastMessageDate.time)
+        }
+
+        private fun bindContactName(name: String) {
+            if (name.isBlank()) {
+                contactNameTextView.text =
+                    itemView.context.getString(R.string.anonymous_contact_name)
             } else {
-                unreadCount.visibility = View.VISIBLE
+                contactNameTextView.text = name
             }
+        }
+
+        private fun bindUnreadMessagesCount(count: Int) {
+            if (count == 0) {
+                unreadMessagesCountTextView.visibility = View.INVISIBLE
+            } else {
+                unreadMessagesCountTextView.visibility = View.VISIBLE
+                unreadMessagesCountTextView.text = count.toString()
+            }
+        }
+
+
+        private fun bindMessageDeliveryDate(timestamp: Long) {
+            messageDeliveryDateTextView.text = MessengerDateFormatter.formatMessageDeliveryDate(timestamp)
+        }
+
+        fun bindContactAvatarImage(imageUri: String) {
         }
     }
 
