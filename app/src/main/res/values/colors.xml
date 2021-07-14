@@ -364,5 +364,7 @@
 
     <color name="buttonColor">@color/light_gray_30</color>
 
+    <color name="recyclerItemSeparator">@color/light_gray_20</color>
+
 
 </resources>

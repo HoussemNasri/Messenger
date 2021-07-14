@@ -3,11 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="12dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginRight="12dp"
-    android:layout_marginBottom="8dp"
-    tools:context=".ui.home.ChatsFragment">
+
+    tools:context=".ui.chats.ChatsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chats_recycler_view"

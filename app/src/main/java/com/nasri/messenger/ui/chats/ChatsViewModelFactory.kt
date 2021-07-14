@@ -1,4 +1,4 @@
-package com.nasri.messenger.ui.home
+package com.nasri.messenger.ui.chats
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

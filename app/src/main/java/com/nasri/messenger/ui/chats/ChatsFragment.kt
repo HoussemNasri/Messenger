@@ -1,4 +1,4 @@
-package com.nasri.messenger.ui.home
+package com.nasri.messenger.ui.chats
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.nasri.messenger.R
 import com.nasri.messenger.databinding.FragmentChatsBinding
 import com.nasri.messenger.domain.chat.LoadRecentChatsUseCase
 import com.nasri.messenger.ui.base.BaseFragment
@@ -48,10 +47,7 @@ class ChatsFragment : BaseFragment() {
         binding.chatsRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@ChatsFragment.requireContext())
             addItemDecoration(
-                DividerItemDecoration(
-                    requireContext(),
-                    DividerItemDecoration.VERTICAL
-                )
+                ChatsItemDecoration(requireContext())
             )
             adapter = chatsAdapter
         }

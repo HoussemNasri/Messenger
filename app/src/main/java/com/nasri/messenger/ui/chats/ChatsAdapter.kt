@@ -1,4 +1,4 @@
-package com.nasri.messenger.ui.home
+package com.nasri.messenger.ui.chats
 
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +16,7 @@ class ChatsAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ChatsAdapter.ChatItemViewHolder {
+    ): ChatItemViewHolder {
         return ChatItemViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.chat_item, parent, false)
         )

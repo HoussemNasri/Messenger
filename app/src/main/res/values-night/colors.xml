@@ -6,4 +6,6 @@
     <color name="toolbarColor">#363636</color>
 
     <color name="buttonColor">@color/light_gray_30</color>
+
+    <color name="recyclerItemSeparator">@color/light_black_30</color>
 </resources>

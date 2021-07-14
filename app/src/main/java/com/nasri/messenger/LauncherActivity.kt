@@ -42,7 +42,7 @@ class LauncherActivity : BaseActivity() {
         }
 
         // TODO (Just for testing)
-        RegistrationUtil.signOutAllProviders(this)
+        //RegistrationUtil.signOutAllProviders(this)
 
         viewModelFactory =
             LaunchViewModelFactory(UserLoggedInUseCase(preferenceStorage))
