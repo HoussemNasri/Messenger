@@ -112,8 +112,6 @@ class SignInFragment : BaseFragment() {
     }
 
 
-
-
     private fun setupGoogleSignIn() {
         val googleSignInOptions =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
