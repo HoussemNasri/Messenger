@@ -9,5 +9,16 @@
         android:id="@+id/chatsFragment"
         android:name="com.nasri.messenger.ui.chats.ChatsFragment"
         android:label="Chats"
-        tools:layout="@layout/fragment_chats" />
+        tools:layout="@layout/fragment_chats" >
+        <action
+            android:id="@+id/action_chatsFragment_to_registrationActivity"
+            app:destination="@id/registrationActivity"
+            app:enterAnim="@anim/slide_in_left_activity"
+            app:exitAnim="@anim/slide_out_right_activity" />
+    </fragment>
+    <activity
+        android:id="@+id/registrationActivity"
+        android:name="com.nasri.messenger.ui.registration.RegistrationActivity"
+        android:label="activity_registration"
+        tools:layout="@layout/activity_registration" />
 </navigation>
