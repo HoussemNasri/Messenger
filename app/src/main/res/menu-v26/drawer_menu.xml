@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group
+        android:id="@+id/main_group"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_new_group"
+            android:icon="@drawable/ic_new_group"
+            android:title="@string/menu_new_group" />
+        <item
+            android:id="@+id/nav_contacts"
+            android:icon="@drawable/ic_contacts"
+            android:title="@string/menu_contacts" />
+
+
+        <item
+            android:id="@+id/nav_saved_messages"
+            android:icon="@drawable/ic_saved_messages"
+            android:title="@string/menu_saved_messages" />
+
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/menu_settings" />
+
+    </group>
+
+    <group
+        android:id="@+id/additional_group"
+        android:checkableBehavior="all">
+        <item
+            android:id="@+id/nav_invite"
+            android:icon="@drawable/ic_invite"
+            android:title="@string/menu_invite_friends" />
+        <item
+            android:id="@+id/nav_features"
+            android:icon="@drawable/ic_help"
+            android:title="@string/menu_help_amp_support" />
+
+    </group>
+
+    <group android:id="@+id/logout_group">
+
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_logout"
+            android:iconTint="@color/red_800"
+            android:title="Logout" />
+    </group>
+
+</menu>

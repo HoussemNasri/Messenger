@@ -2,11 +2,14 @@ package com.nasri.messenger.ui.home
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.navigation.NavigationView
 import com.nasri.messenger.R
 import com.nasri.messenger.databinding.ActivityMainBinding
 
@@ -16,8 +19,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         setSupportActionBar(findViewById(R.id.toolbar2))
 
         val host: NavHostFragment = supportFragmentManager
@@ -25,9 +28,14 @@ class MainActivity : AppCompatActivity() {
 
 
         val navController = host.navController
+        val navView = findViewById<NavigationView>(R.id.nav_view)
+        appBarConfiguration = AppBarConfiguration(
+            setOf(R.id.chatsFragment),
+            binding.drawerLayout
+        )
 
-        appBarConfiguration = AppBarConfiguration(setOf(R.id.chatsFragment))
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
+        binding.navView.setupWithNavController(navController)
 
     }
 
