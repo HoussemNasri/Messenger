@@ -2,16 +2,13 @@ package com.nasri.messenger.ui.registration.signin
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.Toast
-import androidx.core.view.setPadding
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -24,12 +21,14 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.klinker.android.link_builder.Link
 import com.klinker.android.link_builder.applyLinks
 import com.nasri.messenger.R
+import com.nasri.messenger.domain.inputvalidation.EmailVerifier
 import com.nasri.messenger.databinding.FragmentSignInBinding
 import com.nasri.messenger.domain.result.data
 import com.nasri.messenger.domain.result.succeeded
 import com.nasri.messenger.ui.base.BaseFragment
 import timber.log.Timber
 import com.nasri.messenger.data.firebase.FirebaseConstants.*
+import com.nasri.messenger.domain.inputvalidation.PasswordVerifier
 
 
 class SignInFragment : BaseFragment() {
@@ -77,21 +76,20 @@ class SignInFragment : BaseFragment() {
         binding.signInButton.setOnClickListener {
             val email = binding.emailTextField.editText?.text.toString().trim()
             val password = binding.passwordTextField.editText?.text.toString().trim()
+            val emailFlaws = EmailVerifier().verify(email)
+            val passwordFlaws = PasswordVerifier().verify(password)
 
-            if (email.isBlank()) {
-                binding.emailTextField.error = getString(R.string.error_email_blank)
-            } else if (!isEmailValid(email)) {
-                binding.emailTextField.error = getString(R.string.error_email_formatting)
+            if (emailFlaws.isNotEmpty()) {
+                binding.emailTextField.error = emailFlaws[0].description
+                return@setOnClickListener
             }
 
-            if (password.isBlank()) {
-                binding.passwordTextField.error = getString(R.string.error_password_blank)
+            if (passwordFlaws.isNotEmpty()) {
+                binding.emailTextField.error = passwordFlaws[0].description
+                return@setOnClickListener
             }
 
-            if (email.isNotBlank() && password.isNotBlank() && isEmailValid(email)) {
-                viewModel.performEmailSignIn(email, password)
-            }
-
+            viewModel.performEmailSignIn(email, password)
         }
 
         viewModel.authenticatedUserInfo.observe(viewLifecycleOwner, {
