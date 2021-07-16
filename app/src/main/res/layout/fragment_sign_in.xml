@@ -11,32 +11,23 @@
     tools:context=".ui.registration.signin.SignInFragment">
 
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="log in with one of the following options"
-        android:textAlignment="viewStart"
-        app:layout_constraintBottom_toTopOf="@id/third_party_layout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/third_party_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:orientation="horizontal"
+        android:paddingBottom="36dp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="visible">
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/sign_in_with_google"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_weight="1" />
+            android:layout_height="56dp" />
 
         <View
             android:id="@+id/spacing"
@@ -48,7 +39,6 @@
             android:id="@+id/sign_in_with_facebook"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="Facebook" />
     </LinearLayout>
 
@@ -58,7 +48,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+
         app:errorEnabled="true"
         app:errorIconDrawable="@null"
         app:layout_constraintLeft_toLeftOf="parent"

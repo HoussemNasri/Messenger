@@ -9,6 +9,7 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.view.setPadding
 import androidx.core.widget.addTextChangedListener
@@ -58,6 +59,19 @@ class SignInFragment : BaseFragment() {
         setupForgotPasswordLink()
         clearErrorOnTextChanged()
         setupGoogleSignIn()
+
+        binding.root.viewTreeObserver.addOnGlobalLayoutListener {
+            // if more than 200 dp, it's probably a keyboard...
+            Timber.d("Hello : %d", binding.root.rootView.height - binding.root.height)
+            if (binding.root.rootView.height - binding.root.height > dpToPx(200)) {
+                Timber.d("Keyboard!")
+                binding.thirdPartyLayout.visibility = View.GONE
+            } else {
+                if (binding.thirdPartyLayout.visibility == View.GONE) {
+                    binding.thirdPartyLayout.visibility = View.VISIBLE
+                }
+            }
+        }
 
         binding.signInButton.setOnClickListener {
             val email = binding.emailTextField.editText?.text.toString()
