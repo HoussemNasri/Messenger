@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.setPadding
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -19,22 +20,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
 import com.klinker.android.link_builder.Link
 import com.klinker.android.link_builder.applyLinks
 import com.nasri.messenger.R
 import com.nasri.messenger.databinding.FragmentSignInBinding
 import com.nasri.messenger.domain.result.data
 import com.nasri.messenger.domain.result.succeeded
-import com.nasri.messenger.domain.user.AuthenticatedUserInfo
 import com.nasri.messenger.ui.base.BaseFragment
 import timber.log.Timber
 import com.nasri.messenger.data.firebase.FirebaseConstants.*
-import com.nasri.messenger.data.firebase.FirebaseConstants.Companion.FIRE_COLL_USERS
-import com.nasri.messenger.data.firebase.FirebaseConstants.Companion.FIRE_DISPLAY_NAME
-import com.nasri.messenger.data.firebase.FirebaseConstants.Companion.FIRE_LAST_SIGN_IN
-import com.nasri.messenger.data.firebase.FirebaseConstants.Companion.FIRE_PHOTO_URL
 
 
 class SignInFragment : BaseFragment() {
@@ -61,7 +55,7 @@ class SignInFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupSignUpLink()
+        setupForgotPasswordLink()
         clearErrorOnTextChanged()
         setupGoogleSignIn()
 
@@ -109,6 +103,10 @@ class SignInFragment : BaseFragment() {
                 dialogManager.hideProgressDialog()
             }
         })
+
+        binding.goToSignUpButton.setOnClickListener {
+            findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
+        }
     }
 
 
@@ -177,16 +175,20 @@ class SignInFragment : BaseFragment() {
     }
 
 
-    private fun setupSignUpLink() {
-        val signUpLink = Link(getString(R.string.sign_up_label))
+    private fun setupForgotPasswordLink() {
+        val signUpLink = Link(getString(R.string.forgot_your_password))
             .setBold(true)
             .setUnderlined(false)
-            .setTextColor(Color.WHITE)
             .setOnClickListener {
-                findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
+                //TODO ('Go to forgot password fragment')
             }
 
-        binding.dontHaveAccountTextview.applyLinks(signUpLink)
+        binding.forgotPasswordTextView.applyLinks(signUpLink)
+    }
+
+    fun dpToPx(dp: Int): Int {
+        val scale = resources.displayMetrics.density
+        return (dp * scale + 0.5f).toInt()
     }
 
 

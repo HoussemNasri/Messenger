@@ -29,4 +29,5 @@
     <string name="menu_invite_friends">Invite Friends</string>
     <string name="menu_help_amp_support"><![CDATA[Help & Support]]></string>
     <string name="menu_logout">Logout</string>
+    <string name="forgot_your_password">Forgot your password?</string>
 </resources>
