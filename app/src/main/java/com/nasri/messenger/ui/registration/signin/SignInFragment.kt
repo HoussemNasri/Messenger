@@ -60,6 +60,7 @@ class SignInFragment : BaseFragment() {
         clearErrorOnTextChanged()
         setupGoogleSignIn()
 
+        //Hide third party sign in providers layout soft keyboard appears
         binding.root.viewTreeObserver.addOnGlobalLayoutListener {
             // if more than 200 dp, it's probably a keyboard...
             Timber.d("Hello : %d", binding.root.rootView.height - binding.root.height)
@@ -74,8 +75,8 @@ class SignInFragment : BaseFragment() {
         }
 
         binding.signInButton.setOnClickListener {
-            val email = binding.emailTextField.editText?.text.toString()
-            val password = binding.passwordTextField.editText?.text.toString()
+            val email = binding.emailTextField.editText?.text.toString().trim()
+            val password = binding.passwordTextField.editText?.text.toString().trim()
 
             if (email.isBlank()) {
                 binding.emailTextField.error = getString(R.string.error_email_blank)
