@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Duration of the transition animation between two fragments in milliseconds -->
-    <integer name="transition_duration">320</integer>
+    <integer name="transition_duration">420</integer>
     <!-- Duration of the transition animation between two activities in milliseconds -->
     <integer name="transition_duration_activity">500</integer>
 </resources>

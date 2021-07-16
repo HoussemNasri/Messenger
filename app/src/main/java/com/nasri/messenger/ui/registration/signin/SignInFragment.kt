@@ -120,6 +120,7 @@ class SignInFragment : BaseFragment() {
         })
 
         binding.goToSignUpButton.setOnClickListener {
+            resetInputFields()
             findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
         }
     }
@@ -181,6 +182,8 @@ class SignInFragment : BaseFragment() {
     private fun resetInputFields() {
         binding.emailTextField.editText?.setText("")
         binding.passwordTextField.editText?.setText("")
+        binding.emailTextField.error = null
+        binding.passwordTextField.error = null
         binding.passwordTextField.clearFocus()
         binding.emailTextField.clearFocus()
     }
