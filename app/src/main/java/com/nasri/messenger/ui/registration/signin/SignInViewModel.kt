@@ -20,10 +20,11 @@ import com.nasri.messenger.data.firebase.FirebaseConstants.Companion.FIRE_PHOTO_
 import com.nasri.messenger.domain.result.Result
 import com.nasri.messenger.domain.user.AuthenticatedUserInfo
 import com.nasri.messenger.domain.user.FirebaseUserInfo
+import com.nasri.messenger.ui.base.BaseViewModel
 import timber.log.Timber
 
 
-class SignInViewModel : ViewModel(), OnFailureListener,
+class SignInViewModel : BaseViewModel(), OnFailureListener,
     OnCanceledListener, OnSuccessListener<AuthResult> {
 
 
@@ -33,12 +34,9 @@ class SignInViewModel : ViewModel(), OnFailureListener,
     val authenticatedUserInfo: LiveData<Result<AuthenticatedUserInfo>>
         get() = _authenticatedUserInfo
 
-    val showProgress = MutableLiveData(false)
-
-
     /** Sign In using email and password */
     fun performEmailSignIn(email: String, password: String) {
-        showProgress.postValue(true)
+        _showProgress.postValue(true)
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
             .addOnFailureListener(this)
             .addOnSuccessListener(this)
@@ -46,7 +44,7 @@ class SignInViewModel : ViewModel(), OnFailureListener,
 
     /** Sign In using credentials */
     fun performCredentialSignIn(credential: AuthCredential) {
-        showProgress.postValue(true)
+        _showProgress.postValue(true)
         FirebaseAuth.getInstance().signInWithCredential(credential)
             .addOnFailureListener(this)
             .addOnSuccessListener(this)
@@ -54,12 +52,12 @@ class SignInViewModel : ViewModel(), OnFailureListener,
 
 
     override fun onFailure(it: Exception) {
-        showProgress.postValue(false)
+        _showProgress.postValue(false)
         _authenticatedUserInfo.postValue(Result.Error(it))
     }
 
     override fun onCanceled() {
-        showProgress.postValue(false)
+        _showProgress.postValue(false)
     }
 
     override fun onSuccess(it: AuthResult?) {
@@ -71,7 +69,7 @@ class SignInViewModel : ViewModel(), OnFailureListener,
             }.addOnFailureListener {
                 onFailure(it)
             }.addOnCompleteListener {
-                showProgress.postValue(false)
+                _showProgress.postValue(false)
             }
     }
 
