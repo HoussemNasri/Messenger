@@ -15,10 +15,18 @@
             app:destination="@id/registrationActivity"
             app:enterAnim="@anim/slide_in_left_activity"
             app:exitAnim="@anim/slide_out_right_activity" />
+        <action
+            android:id="@+id/action_chatsFragment_to_newMessageFragment"
+            app:destination="@id/newMessageFragment" />
     </fragment>
     <activity
         android:id="@+id/registrationActivity"
         android:name="com.nasri.messenger.ui.registration.RegistrationActivity"
         android:label="activity_registration"
         tools:layout="@layout/activity_registration" />
+    <fragment
+        android:id="@+id/newMessageFragment"
+        android:name="com.nasri.messenger.ui.newmessage.NewMessageFragment"
+        android:label="fragment_new_message"
+        tools:layout="@layout/fragment_new_message" />
 </navigation>
