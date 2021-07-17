@@ -5,8 +5,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 abstract class BaseViewModel : ViewModel() {
-    protected val _showProgress: MutableLiveData<Boolean> = MutableLiveData()
+    private val _showProgress: MutableLiveData<Boolean> = MutableLiveData()
     val showProgress: LiveData<Boolean>
         get() = _showProgress
+
+    fun hideProgress() {
+        _showProgress.postValue(false)
+    }
+
+    fun showProgress() {
+        _showProgress.postValue(true)
+    }
 
 }

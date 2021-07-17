@@ -36,7 +36,7 @@ class SignInViewModel : BaseViewModel(), OnFailureListener,
 
     /** Sign In using email and password */
     fun performEmailSignIn(email: String, password: String) {
-        _showProgress.postValue(true)
+        showProgress()
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
             .addOnFailureListener(this)
             .addOnSuccessListener(this)
@@ -44,7 +44,7 @@ class SignInViewModel : BaseViewModel(), OnFailureListener,
 
     /** Sign In using credentials */
     fun performCredentialSignIn(credential: AuthCredential) {
-        _showProgress.postValue(true)
+        showProgress()
         FirebaseAuth.getInstance().signInWithCredential(credential)
             .addOnFailureListener(this)
             .addOnSuccessListener(this)
@@ -52,12 +52,12 @@ class SignInViewModel : BaseViewModel(), OnFailureListener,
 
 
     override fun onFailure(it: Exception) {
-        _showProgress.postValue(false)
+        hideProgress()
         _authenticatedUserInfo.postValue(Result.Error(it))
     }
 
     override fun onCanceled() {
-        _showProgress.postValue(false)
+        hideProgress()
     }
 
     override fun onSuccess(it: AuthResult?) {
@@ -69,7 +69,7 @@ class SignInViewModel : BaseViewModel(), OnFailureListener,
             }.addOnFailureListener {
                 onFailure(it)
             }.addOnCompleteListener {
-                _showProgress.postValue(false)
+                hideProgress()
             }
     }
 

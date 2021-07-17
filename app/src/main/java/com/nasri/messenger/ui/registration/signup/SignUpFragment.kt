@@ -4,15 +4,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.nasri.messenger.databinding.FragmentSignUpBinding
 import com.nasri.messenger.domain.inputvalidation.EmailVerifier
 import com.nasri.messenger.domain.inputvalidation.PasswordVerifier
+import com.nasri.messenger.domain.result.succeeded
+import com.nasri.messenger.ui.base.BaseFragment
+import timber.log.Timber
 
 
-class SignUpFragment : Fragment() {
+class SignUpFragment : BaseFragment() {
     private lateinit var binding: FragmentSignUpBinding
+    private val viewModel: SignUpViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,10 +56,32 @@ class SignUpFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            //TODO ('Start the SignUp process!')
-
+            viewModel.signUpWithEmailAndPassword(email, password)
 
         }
+
+        viewModel.userSignedUp.observe(viewLifecycleOwner, Observer {
+            if (it.succeeded) {
+                Toast.makeText(requireContext(), "User Registered successfully", Toast.LENGTH_LONG)
+                    .show()
+                findNavController().navigateUp()
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    it.exceptionOrNull()?.message ?: "Unknown error!",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        })
+
+        viewModel.showProgress.observe(viewLifecycleOwner, {
+            Timber.d("Context : %s", context.toString())
+            if (it) {
+                dialogManager.showProgressDialog()
+            } else {
+                dialogManager.hideProgressDialog()
+            }
+        })
     }
 
     private fun clearErrorOnTextChanged() {
