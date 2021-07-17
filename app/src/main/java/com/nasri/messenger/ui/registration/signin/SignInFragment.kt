@@ -3,8 +3,6 @@ package com.nasri.messenger.ui.registration.signin
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
-import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,14 +19,14 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.klinker.android.link_builder.Link
 import com.klinker.android.link_builder.applyLinks
 import com.nasri.messenger.R
-import com.nasri.messenger.domain.inputvalidation.EmailVerifier
+import com.nasri.messenger.data.firebase.FirebaseConstants.*
 import com.nasri.messenger.databinding.FragmentSignInBinding
+import com.nasri.messenger.domain.inputvalidation.EmailVerifier
+import com.nasri.messenger.domain.inputvalidation.PasswordVerifier
 import com.nasri.messenger.domain.result.data
 import com.nasri.messenger.domain.result.succeeded
 import com.nasri.messenger.ui.base.BaseFragment
 import timber.log.Timber
-import com.nasri.messenger.data.firebase.FirebaseConstants.*
-import com.nasri.messenger.domain.inputvalidation.PasswordVerifier
 
 
 class SignInFragment : BaseFragment() {
@@ -58,20 +56,7 @@ class SignInFragment : BaseFragment() {
         setupForgotPasswordLink()
         clearErrorOnTextChanged()
         setupGoogleSignIn()
-
-        //Hide third party sign in providers layout soft keyboard appears
-        binding.root.viewTreeObserver.addOnGlobalLayoutListener {
-            // if more than 200 dp, it's probably a keyboard...
-            Timber.d("Hello : %d", binding.root.rootView.height - binding.root.height)
-            if (binding.root.rootView.height - binding.root.height > dpToPx(200)) {
-                Timber.d("Keyboard!")
-                binding.thirdPartyLayout.visibility = View.GONE
-            } else {
-                if (binding.thirdPartyLayout.visibility == View.GONE) {
-                    binding.thirdPartyLayout.visibility = View.VISIBLE
-                }
-            }
-        }
+        hideThirdPartySignInProvidersLayoutOnSoftKeyboardAppear()
 
         binding.signInButton.setOnClickListener {
             val email = binding.emailTextField.editText?.text.toString().trim()
@@ -85,7 +70,7 @@ class SignInFragment : BaseFragment() {
             }
 
             if (passwordFlaws.isNotEmpty()) {
-                binding.emailTextField.error = passwordFlaws[0].description
+                binding.passwordTextField.error = passwordFlaws[0].description
                 return@setOnClickListener
             }
 
@@ -120,6 +105,21 @@ class SignInFragment : BaseFragment() {
         binding.goToSignUpButton.setOnClickListener {
             resetInputFields()
             findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
+        }
+    }
+
+    private fun hideThirdPartySignInProvidersLayoutOnSoftKeyboardAppear() {
+        binding.root.viewTreeObserver.addOnGlobalLayoutListener {
+            // if more than 200 dp, it's probably a keyboard...
+            Timber.d("Hello : %d", binding.root.rootView.height - binding.root.height)
+            if (binding.root.rootView.height - binding.root.height > dpToPx(200)) {
+                Timber.d("Keyboard!")
+                binding.thirdPartyLayout.visibility = View.GONE
+            } else {
+                if (binding.thirdPartyLayout.visibility == View.GONE) {
+                    binding.thirdPartyLayout.visibility = View.VISIBLE
+                }
+            }
         }
     }
 
@@ -185,11 +185,6 @@ class SignInFragment : BaseFragment() {
         binding.passwordTextField.clearFocus()
         binding.emailTextField.clearFocus()
     }
-
-    private fun isEmailValid(target: String): Boolean {
-        return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
-    }
-
 
     private fun setupForgotPasswordLink() {
         val signUpLink = Link(getString(R.string.forgot_your_password))
