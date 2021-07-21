@@ -24,7 +24,7 @@ class NewMessageFragment : BaseFragment() {
             ),
             PeopleItem(
                 "Logan Bennett",
-                Uri.parse("https://randomuser.me/api/portraits/men/49.jpg")
+                null
             ),
             PeopleItem(
                 "Madison Romero",

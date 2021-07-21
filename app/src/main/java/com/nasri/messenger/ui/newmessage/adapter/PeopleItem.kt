@@ -4,5 +4,5 @@ import android.net.Uri
 
 data class PeopleItem(
     val fullName: String,
-    val avatarUri: Uri,
+    val avatarUri: Uri?,
 )

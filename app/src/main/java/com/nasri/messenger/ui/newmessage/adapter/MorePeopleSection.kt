@@ -3,6 +3,7 @@ package com.nasri.messenger.ui.newmessage.adapter
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.nasri.messenger.R
@@ -41,6 +42,7 @@ class MorePeopleSection(
             fullNameTextView.text = peopleItem.fullName
             Glide.with(itemView)
                 .load(peopleItem.avatarUri)
+                .placeholder(R.drawable.ic_avatar)
                 .into(peopleAvatarImageView)
         }
     }
