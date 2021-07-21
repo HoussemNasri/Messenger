@@ -51,6 +51,7 @@
     <style name="AppTheme.TextAppearance.HeadLine" parent="TextAppearance.AppCompat.Headline">
         <item name="fontFamily">@font/livesport_bold</item>
         <item name="android:textSize">21sp</item>
+        <item name="android:textColor">@color/color_on_surface</item>
     </style>
 
 
