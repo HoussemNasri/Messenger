@@ -1,14 +1,13 @@
 package com.nasri.messenger.ui.chats
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.nasri.messenger.R
 import com.nasri.messenger.databinding.FragmentChatsBinding
 import com.nasri.messenger.domain.chat.LoadRecentChatsUseCase
 import com.nasri.messenger.ui.base.BaseFragment
@@ -32,7 +31,7 @@ class ChatsFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         firebaseAuth = FirebaseAuth.getInstance()
         Timber.d("User UID : %s", firebaseAuth.currentUser?.uid ?: "*")
         // Inflate the layout for this fragment
@@ -42,7 +41,7 @@ class ChatsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setHasOptionsMenu(true)
         chatsAdapter = ChatsAdapter(emptyList())
         binding.chatsRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@ChatsFragment.requireContext())
@@ -60,5 +59,10 @@ class ChatsFragment : BaseFragment() {
             }
         })
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.main_menu, menu)
+    }
+
 
 }
