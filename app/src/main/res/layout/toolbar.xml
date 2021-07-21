@@ -10,9 +10,11 @@
     app:titleCentered="true"
     android:background="@color/toolbarColor"
     app:titleTextColor="?attr/colorOnSurface"
+    app:navigationIconTint="?attr/colorOnSurface"
+
+
     app:titleTextAppearance="@style/AppThemeToolbar.TextAppearance"
 
 >
-
 
 </com.google.android.material.appbar.MaterialToolbar>
