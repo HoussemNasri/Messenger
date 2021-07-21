@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground"
-    android:paddingVertical="10dp"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    android:paddingVertical="10dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/people_avatar_image"
@@ -15,27 +16,26 @@
         android:layout_marginStart="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-
-        />
+        tools:src="@drawable/ic_avatar" />
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginStart="16dp"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="@id/people_avatar_image"
-        app:layout_constraintStart_toEndOf="@id/people_avatar_image"
-        app:layout_constraintTop_toTopOf="@id/people_avatar_image"
         app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center_vertical">
+        app:layout_constraintStart_toEndOf="@id/people_avatar_image"
+        app:layout_constraintTop_toTopOf="@id/people_avatar_image">
 
         <TextView
             android:id="@+id/people_full_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Houssem Nasri"
             android:layout_gravity="center_vertical"
-            android:textAppearance="@style/AppTheme.TextAppearance.HeadLine"/>
+            android:text="Houssem Nasri"
+            android:textAppearance="@style/AppTheme.TextAppearance.HeadLine" />
     </LinearLayout>
 
 

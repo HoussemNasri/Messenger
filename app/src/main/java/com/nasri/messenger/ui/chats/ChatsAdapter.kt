@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.nasri.messenger.R
 import com.nasri.messenger.domain.chat.RecentChatModel
 
@@ -49,6 +50,7 @@ class ChatsAdapter(
             bindContactName(chatItemModel.contactName)
             bindUnreadMessagesCount(chatItemModel.conversationUnreadMessagesCount)
             bindMessageDeliveryDate(chatItemModel.conversationLastMessageDate.time)
+            bindContactAvatarImage(chatItemModel.contactAvatarImageUri)
         }
 
         private fun bindContactName(name: String) {
@@ -71,10 +73,15 @@ class ChatsAdapter(
 
 
         private fun bindMessageDeliveryDate(timestamp: Long) {
-            messageDeliveryDateTextView.text = MessengerDateFormatter.formatMessageDeliveryDate(timestamp)
+            messageDeliveryDateTextView.text =
+                MessengerDateFormatter.formatMessageDeliveryDate(timestamp)
         }
 
         fun bindContactAvatarImage(imageUri: String) {
+            Glide.with(itemView)
+                .load(imageUri)
+                .placeholder(R.drawable.ic_avatar)
+                .into(contactAvatarImageView)
         }
     }
 
