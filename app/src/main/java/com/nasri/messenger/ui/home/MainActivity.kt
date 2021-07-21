@@ -1,6 +1,7 @@
 package com.nasri.messenger.ui.home
 
 import android.os.Bundle
+import android.view.Menu
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -29,6 +30,7 @@ class MainActivity : BaseActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(findViewById(R.id.toolbar2))
+
 
         val host: NavHostFragment = supportFragmentManager
             .findFragmentById(R.id.main_nav_host_fragment) as NavHostFragment? ?: return
@@ -65,4 +67,6 @@ class MainActivity : BaseActivity() {
         // TODO (disable up navigation by using links instead.)
         return findNavController(R.id.main_nav_host_fragment).navigateUp(appBarConfiguration)
     }
+
+
 }

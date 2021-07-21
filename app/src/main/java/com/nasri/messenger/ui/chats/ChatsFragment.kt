@@ -58,6 +58,10 @@ class ChatsFragment : BaseFragment() {
                 chatsAdapter.setChats(it)
             }
         })
+
+        binding.fab.setOnClickListener {
+            findNavController().navigate(R.id.action_chatsFragment_to_newMessageFragment)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

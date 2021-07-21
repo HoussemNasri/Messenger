@@ -30,4 +30,6 @@
     <string name="menu_help_amp_support"><![CDATA[Help & Support]]></string>
     <string name="menu_logout">Logout</string>
     <string name="forgot_your_password">Forgot your password?</string>
+    <string name="new_message">new message</string>
+    <string name="search">Search</string>
 </resources>

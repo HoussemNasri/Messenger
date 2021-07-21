@@ -1,10 +1,9 @@
 package com.nasri.messenger.ui.newmessage
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.viewModels
+import com.nasri.messenger.R
 import com.nasri.messenger.databinding.FragmentNewMessageBinding
 import com.nasri.messenger.ui.base.BaseFragment
 
