@@ -27,13 +27,21 @@
         <item name="materialButtonStyle">@style/AppButtonStyle</item>
 
         <item name="android:colorBackground">@color/background</item>
-        <item name="toolbarStyle">@style/AppThemeToolbar</item>
-        <item name="appBarLayoutStyle">@style/AppThemeToolbar</item>
 
         <item name="android:textViewStyle">@style/AppTheme.TextView</item>
 
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:statusBarColor">@color/background</item>
+
+
+
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="colorOnPrimarySurface">#ffffff</item>
+
+
+
     </style>
 
     <style name="AppTheme.TextView" parent="Widget.AppCompat.TextView">
@@ -51,17 +59,12 @@
         <item name="android:textSize">26sp</item>
     </style>
 
-    <style name="AppThemeToolbar" parent="Widget.MaterialComponents.Toolbar">
-        <item name="backgroundTint">@color/yellow_50</item>
-    </style>
+
 
     <style name="AppTheme" parent="BaseAppTheme">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/deep_sky_blue</item>
-        <item name="colorPrimaryDark">@color/warm_blue</item>
-        <item name="colorSecondary">?attr/colorPrimary</item>
         <item name="colorOnSecondary">@color/color_on_secondary</item>
         <item name="colorOnSurface">@color/light_black_20</item>
+
     </style>
 
 
@@ -132,4 +135,5 @@
     </style>
 
 
+    <color name="color_on_surface">#FDFCFC</color>
 </resources>

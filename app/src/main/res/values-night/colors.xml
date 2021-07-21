@@ -3,9 +3,18 @@
 
     <color name="background">@color/light_black_20</color>
 
-    <color name="toolbarColor">#363636</color>
+    <color name="toolbarColor">@color/light_black_10</color>
 
     <color name="buttonColor">@color/light_gray_30</color>
 
     <color name="recyclerItemSeparator">@color/light_black_30</color>
+
+    <!-- app color palette -->
+    <color name="primary">@color/carolina_blue</color>
+    <color name="primary_light">@color/blue_50</color>
+    <color name="primary_dark">@color/deep_sky_blue</color>
+
+    <color name="accent">@color/indigo_500</color>
+    <color name="accent_fallback_light">@color/indigo_300</color>
+    <color name="accent_fallback_dark">@color/indigo_600</color>
 </resources>

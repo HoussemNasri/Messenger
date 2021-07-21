@@ -1,10 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="AppTheme" parent="BaseAppTheme">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/carolina_blue</item>
-        <item name="colorPrimaryDark">@color/cornflower_blue</item>
         <item name="android:windowLightStatusBar">false</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorControlNormal">@color/white</item>
         <!-- Customize your theme here. -->
     </style>
 

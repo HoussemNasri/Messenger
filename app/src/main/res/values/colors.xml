@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="color_primary">@color/deep_sky_blue</color>
-    <color name="color_primary_dark">@color/warm_blue</color>
+    <color name="color_primary">#7b00D2</color>
+    <color name="color_primary_dark">#43009f</color>
     <color name="color_on_secondary">@color/white</color>
 
     <color name="color_control_light">#39000000</color> <!-- Same as textColorPrimary disabled -->
@@ -365,6 +365,7 @@
     <color name="buttonColor">@color/light_gray_30</color>
 
     <color name="recyclerItemSeparator">@color/light_gray_20</color>
+
 
 
 </resources>
