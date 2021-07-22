@@ -9,8 +9,6 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nasri.messenger.databinding.FragmentNewMessageBinding
 import com.nasri.messenger.ui.base.BaseFragment
-import com.nasri.messenger.ui.newmessage.adapter.MorePeopleSection
-import com.nasri.messenger.ui.newmessage.adapter.PeopleItem
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter
 
 
@@ -41,6 +39,22 @@ class NewMessageFragment : BaseFragment() {
                 Uri.parse("https://randomuser.me/api/portraits/women/20.jpg")
             ),
         )
+
+        val DUMMY_PEOPLE_LIST_2 = listOf(
+            PeopleItem(
+                "Loretta Caldwell",
+                Uri.parse("https://randomuser.me/api/portraits/women/37.jpg")
+            ),
+            PeopleItem(
+                "Tyler Fox",
+                Uri.parse("https://randomuser.me/api/portraits/men/16.jpg")
+            ),
+            PeopleItem(
+                "Brent Terry",
+                null
+            ),
+
+            )
     }
 
     private lateinit var binding: FragmentNewMessageBinding
@@ -59,7 +73,7 @@ class NewMessageFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val sectionAdapter = SectionedRecyclerViewAdapter()
-
+        sectionAdapter.addSection(SuggestedSection(DUMMY_PEOPLE_LIST_2))
         sectionAdapter.addSection(MorePeopleSection(DUMMY_PEOPLE_LIST_1))
 
         binding.recyclerView.layoutManager = LinearLayoutManager(context)

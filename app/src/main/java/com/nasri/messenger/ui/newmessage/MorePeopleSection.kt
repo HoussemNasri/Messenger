@@ -1,16 +1,12 @@
-package com.nasri.messenger.ui.newmessage.adapter
+package com.nasri.messenger.ui.newmessage
 
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.nasri.messenger.R
 import io.github.luizgrp.sectionedrecyclerviewadapter.Section
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters
 import io.github.luizgrp.sectionedrecyclerviewadapter.utils.EmptyViewHolder
-import timber.log.Timber
 
 class MorePeopleSection(
     private var dataItems: List<PeopleItem>
@@ -29,21 +25,13 @@ class MorePeopleSection(
     override fun onBindItemViewHolder(holder: RecyclerView.ViewHolder?, position: Int) =
         (holder as PeopleViewHolder).bind(dataItems[position])
 
-
     override fun getHeaderViewHolder(view: View?): RecyclerView.ViewHolder = EmptyViewHolder(view)
 
-
-    class PeopleViewHolder(private val itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val fullNameTextView: TextView = itemView.findViewById(R.id.people_full_name)
-        private val peopleAvatarImageView: ImageView =
-            itemView.findViewById(R.id.people_avatar_image)
-
-        fun bind(peopleItem: PeopleItem) {
-            fullNameTextView.text = peopleItem.fullName
-            Glide.with(itemView)
-                .load(peopleItem.avatarUri)
-                .placeholder(R.drawable.ic_avatar)
-                .into(peopleAvatarImageView)
-        }
+    override fun onBindHeaderViewHolder(holder: RecyclerView.ViewHolder?) {
+        val itemView = (holder as EmptyViewHolder).itemView
+        val headerTextView = holder.itemView.findViewById<TextView>(R.id.header)
+        headerTextView.text = itemView.context.getString(R.string.more_people_header)
     }
+
+
 }
