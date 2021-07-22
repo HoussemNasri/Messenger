@@ -29,7 +29,7 @@ class MainActivity : BaseActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setSupportActionBar(findViewById(R.id.toolbar2))
+        setSupportActionBar(binding.toolbar2.root)
 
 
         val host: NavHostFragment = supportFragmentManager

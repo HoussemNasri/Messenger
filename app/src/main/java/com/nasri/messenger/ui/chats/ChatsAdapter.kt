@@ -77,7 +77,7 @@ class ChatsAdapter(
                 MessengerDateFormatter.formatMessageDeliveryDate(timestamp)
         }
 
-        fun bindContactAvatarImage(imageUri: String) {
+        private fun bindContactAvatarImage(imageUri: String) {
             Glide.with(itemView)
                 .load(imageUri)
                 .placeholder(R.drawable.ic_avatar)
