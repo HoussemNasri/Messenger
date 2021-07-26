@@ -31,4 +31,8 @@ class SuggestedSection(
         val headerTextView = holder.itemView.findViewById<TextView>(R.id.header)
         headerTextView.text = itemView.context.getString(R.string.suggested_header)
     }
+
+    fun postData(dataItems: List<PeopleItem>) {
+        this.dataItems = dataItems
+    }
 }

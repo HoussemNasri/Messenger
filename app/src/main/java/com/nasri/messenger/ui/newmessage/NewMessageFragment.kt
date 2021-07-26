@@ -14,6 +14,8 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapt
 
 class NewMessageFragment : BaseFragment() {
     companion object {
+        const val MORE_PEOPLE_SECTION = "morepeople"
+        const val SUGGESTED_SECTION = "suggested"
         val DUMMY_PEOPLE_LIST_1 = listOf(
             PeopleItem("Gene Hayes", Uri.parse("https://randomuser.me/api/portraits/men/96.jpg")),
             PeopleItem(
@@ -40,7 +42,7 @@ class NewMessageFragment : BaseFragment() {
             ),
         )
 
-        val DUMMY_PEOPLE_LIST_2 = listOf(
+        val DUMMY_PEOPLE_LIST_2 = arrayListOf(
             PeopleItem(
                 "Loretta Caldwell",
                 Uri.parse("https://randomuser.me/api/portraits/women/37.jpg")
@@ -53,8 +55,7 @@ class NewMessageFragment : BaseFragment() {
                 "Brent Terry",
                 null
             ),
-
-            )
+        )
     }
 
     private lateinit var binding: FragmentNewMessageBinding
@@ -71,10 +72,10 @@ class NewMessageFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        DUMMY_PEOPLE_LIST_2.clear()
         val sectionAdapter = SectionedRecyclerViewAdapter()
-        sectionAdapter.addSection(SuggestedSection(DUMMY_PEOPLE_LIST_2))
-        sectionAdapter.addSection(MorePeopleSection(DUMMY_PEOPLE_LIST_1))
+        sectionAdapter.addSection(SUGGESTED_SECTION, SuggestedSection(DUMMY_PEOPLE_LIST_2))
+        sectionAdapter.addSection(MORE_PEOPLE_SECTION, MorePeopleSection(DUMMY_PEOPLE_LIST_1))
 
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = sectionAdapter
