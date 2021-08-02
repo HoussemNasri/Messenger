@@ -11,6 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import com.nasri.messenger.domain.result.Result
+import timber.log.Timber
 
 class NewMessageViewModel(
     private val userId: String,
@@ -24,9 +25,11 @@ class NewMessageViewModel(
         get() = _userSearchResult
 
     fun onSearchQuery(query: String) {
+        Timber.d("onSearchQuery() called")
         if (query != currentQuery) {
             currentQuery = query
             executeSearch()
+            Timber.d("User Search Started")
         }
     }
 

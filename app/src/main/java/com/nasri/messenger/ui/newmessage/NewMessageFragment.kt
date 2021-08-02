@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
@@ -46,7 +47,10 @@ class NewMessageFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // First load don't need query, will load users ordered alphabetically or according to some score
+        // based on number of messages and interaction between the two users
         viewModel.onSearchQuery("")
+
         val sectionAdapter = SectionedRecyclerViewAdapter()
         val suggestedSection = SuggestedSection()
         val morePeopleSection = MorePeopleSection()
@@ -64,12 +68,15 @@ class NewMessageFragment : BaseFragment() {
             }
         })
 
-
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = sectionAdapter
+
+        binding.searchEditText.doAfterTextChanged {
+            viewModel.onSearchQuery(it?.toString() ?: "")
+        }
     }
 
-    fun toPeopleItem(userData: UserData): PeopleItem {
+    private fun toPeopleItem(userData: UserData): PeopleItem {
         return PeopleItem(userData.name, Uri.parse(userData.avatarUrl))
     }
 
