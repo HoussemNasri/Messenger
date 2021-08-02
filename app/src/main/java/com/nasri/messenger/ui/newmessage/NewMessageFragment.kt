@@ -60,8 +60,8 @@ class NewMessageFragment : BaseFragment() {
 
         viewModel.userSearchResponse.observe(viewLifecycleOwner, {
             if (it.succeeded) {
-                suggestedSection.postData(it.data!!.contacts.map { contact -> toPeopleItem(contact) })
-                morePeopleSection.postData(it.data!!.people.map { people -> toPeopleItem(people) })
+                suggestedSection.setData(it.data!!.contacts.map { contact -> toPeopleItem(contact) })
+                morePeopleSection.setData(it.data!!.people.map { people -> toPeopleItem(people) })
                 sectionAdapter.notifyDataSetChanged()
             } else {
                 // TODO('Handle failing')
