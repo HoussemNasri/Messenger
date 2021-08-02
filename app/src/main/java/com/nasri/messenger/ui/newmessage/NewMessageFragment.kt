@@ -7,60 +7,33 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.firestore.FirebaseFirestore
+import com.nasri.messenger.data.user.*
 import com.nasri.messenger.databinding.FragmentNewMessageBinding
+import com.nasri.messenger.domain.result.data
+import com.nasri.messenger.domain.result.succeeded
+import com.nasri.messenger.domain.user.UserSearchUseCase
 import com.nasri.messenger.ui.base.BaseFragment
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter
+import timber.log.Timber
 
 
 class NewMessageFragment : BaseFragment() {
-    companion object {
-        const val MORE_PEOPLE_SECTION = "morepeople"
-        const val SUGGESTED_SECTION = "suggested"
-        val DUMMY_PEOPLE_LIST_1 = listOf(
-            PeopleItem("Gene Hayes", Uri.parse("https://randomuser.me/api/portraits/men/96.jpg")),
-            PeopleItem(
-                "Carrie Prescott",
-                Uri.parse("https://randomuser.me/api/portraits/women/39.jpg")
-            ),
-            PeopleItem(
-                "Logan Bennett",
-                null
-            ),
-            PeopleItem(
-                "Madison Romero",
-                Uri.parse("https://randomuser.me/api/portraits/women/42.jpg")
-            ),
-            PeopleItem("Levi Brown", Uri.parse("https://randomuser.me/api/portraits/men/43.jpg")),
-            PeopleItem(
-                "Kelly Morrison",
-                Uri.parse("https://randomuser.me/api/portraits/men/95.jpg")
-            ),
-            PeopleItem("Darren White", Uri.parse("https://randomuser.me/api/portraits/men/24.jpg")),
-            PeopleItem(
-                "Ashley Oliver",
-                Uri.parse("https://randomuser.me/api/portraits/women/20.jpg")
-            ),
-        )
-
-        val DUMMY_PEOPLE_LIST_2 = arrayListOf(
-            PeopleItem(
-                "Loretta Caldwell",
-                Uri.parse("https://randomuser.me/api/portraits/women/37.jpg")
-            ),
-            PeopleItem(
-                "Tyler Fox",
-                Uri.parse("https://randomuser.me/api/portraits/men/16.jpg")
-            ),
-            PeopleItem(
-                "Brent Terry",
-                null
-            ),
-        )
-    }
 
     private lateinit var binding: FragmentNewMessageBinding
 
-    private val viewModel: NewMessageViewModel by viewModels()
+    val viewModel: NewMessageViewModel by viewModels {
+        val firebaseService = FirebaseUserService(FirebaseFirestore.getInstance())
+        val dummyService = DummyUserService()
+        val userId = preferenceStorage.getCurrentUserInfo()?.getUid() ?: ""
+
+        val contactRepository = ContactRepository(userId, dummyService)
+        val peopleRepository = PeopleRepository(dummyService)
+
+        val searchUsersUseCase = UserSearchUseCase(contactRepository, peopleRepository)
+
+        NewMessageViewModelFactory(userId, searchUsersUseCase)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,13 +45,32 @@ class NewMessageFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        DUMMY_PEOPLE_LIST_2.clear()
+
+        viewModel.onSearchQuery("")
         val sectionAdapter = SectionedRecyclerViewAdapter()
-        sectionAdapter.addSection(SUGGESTED_SECTION, SuggestedSection(DUMMY_PEOPLE_LIST_2))
-        sectionAdapter.addSection(MORE_PEOPLE_SECTION, MorePeopleSection(DUMMY_PEOPLE_LIST_1))
+        val suggestedSection = SuggestedSection()
+        val morePeopleSection = MorePeopleSection()
+
+        sectionAdapter.addSection(suggestedSection)
+        sectionAdapter.addSection(morePeopleSection)
+
+        viewModel.userSearchResponse.observe(viewLifecycleOwner, {
+            if (it.succeeded) {
+                suggestedSection.postData(it.data!!.contacts.map { contact -> toPeopleItem(contact) })
+                morePeopleSection.postData(it.data!!.people.map { people -> toPeopleItem(people) })
+                sectionAdapter.notifyDataSetChanged()
+            } else {
+                // TODO('Handle failing')
+            }
+        })
+
 
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = sectionAdapter
+    }
+
+    fun toPeopleItem(userData: UserData): PeopleItem {
+        return PeopleItem(userData.name, Uri.parse(userData.avatarUrl))
     }
 
 }

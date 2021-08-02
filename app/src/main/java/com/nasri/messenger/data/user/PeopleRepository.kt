@@ -6,14 +6,14 @@ import com.nasri.messenger.domain.user.AuthenticatedUserInfo
  * This repository manages the data of people that [AuthenticatedUserInfo] NOT in contact with
  * */
 class PeopleRepository(
-    private val userProviderService: UserProviderService
+    private val userService: UserService
 ) {
 
     suspend fun getPeopleById(id: String): UserData.People? =
-        userProviderService.getUserById(id)?.mapToPeople()
+        userService.getUserById(id)?.mapToPeople()
 
-    suspend fun getPeopleList(page: Int, itemsPerPage: Int = 30): List<UserData.People>? {
-        TODO()
+    suspend fun getPeople(query: String?, limit: Long): List<UserData.People> {
+        return userService.getUsers(query, limit).map { it.mapToPeople() }
     }
 
 }

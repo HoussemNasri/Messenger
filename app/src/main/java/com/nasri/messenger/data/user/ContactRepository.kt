@@ -7,17 +7,20 @@ import com.nasri.messenger.domain.user.AuthenticatedUserInfo
  * */
 class ContactRepository(
     private val authenticatedUserId: String,
-    private val userProviderService: UserProviderService,
+    private val userService: UserService,
 ) {
 
     suspend fun getContactById(id: String): UserData.Contact? {
-        TODO("load all contacts first")
+        return userService.getContactById(authenticatedUserId, id)?.mapToContact()
     }
 
-
-    suspend fun getAllContacts(): List<UserData.Contact>? {
-        TODO()
+    suspend fun getContacts(query: String?, limit: Long): List<UserData.Contact> {
+        return userService.getUserContacts(authenticatedUserId, query, limit).map {
+            it.mapToContact()
+        }
     }
+
+    suspend fun getContacts(limit: Long): List<UserData.Contact> = getContacts(null, limit)
 
 
 }

@@ -9,7 +9,7 @@ import java.time.temporal.ChronoUnit
 /**
  * A utility class to handle date formatting.
  * */
-class MessengerDateFormatter {
+class ChatsDateFormatter {
     companion object {
         /**
          * Returns a user-friendly formatted date used primarily in message delivery

@@ -8,11 +8,11 @@ import com.nasri.messenger.data.firebase.toUserData
 
 interface UserService {
     suspend fun getUserById(id: String): UserData?
-    suspend fun getUsers(limit: Long): List<UserData>
+    suspend fun getUsers(query: String? = null, limit: Long = 20): List<UserData>
     suspend fun getContactById(userId: String, contactId: String): UserData?
     suspend fun getUserContacts(
         userId: String,
-        prefix: String? = null,
+        query: String? = null,
         limit: Long = 20L
     ): List<UserData>
 }
@@ -32,8 +32,7 @@ class FirebaseUserService(
         }
     }
 
-
-    override suspend fun getUsers(limit: Long): List<UserData> {
+    override suspend fun getUsers(query: String?, limit: Long): List<UserData> {
         val getUsersTask = db.collection(FirebaseConstants.FIRE_COLL_USERS)
             .orderBy(FirebaseConstants.FIRE_DISPLAY_NAME)
             .limit(limit).get()
@@ -59,7 +58,7 @@ class FirebaseUserService(
 
     override suspend fun getUserContacts(
         userId: String,
-        prefix: String?,
+        query: String?,
         limit: Long
     ): List<UserData> {
         val getContactsTask = db.collection(FirebaseConstants.FIRE_COLL_USERS)
@@ -82,7 +81,7 @@ class DummyUserService() : UserService {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getUsers(limit: Long): List<UserData> {
+    override suspend fun getUsers(query: String?, limit: Long): List<UserData> {
         return RandomUsers.getRandomUsers(limit)
     }
 
@@ -92,7 +91,7 @@ class DummyUserService() : UserService {
 
     override suspend fun getUserContacts(
         userId: String,
-        prefix: String?,
+        query: String?,
         limit: Long
     ): List<UserData> {
         return RandomUsers.getRandomContacts(limit)

@@ -74,7 +74,7 @@ class ChatsAdapter(
 
         private fun bindMessageDeliveryDate(timestamp: Long) {
             messageDeliveryDateTextView.text =
-                MessengerDateFormatter.formatMessageDeliveryDate(timestamp)
+                ChatsDateFormatter.formatMessageDeliveryDate(timestamp)
         }
 
         private fun bindContactAvatarImage(imageUri: String) {

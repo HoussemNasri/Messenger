@@ -9,7 +9,7 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters
 import io.github.luizgrp.sectionedrecyclerviewadapter.utils.EmptyViewHolder
 
 class MorePeopleSection(
-    private var dataItems: List<PeopleItem>
+    private var dataItems: List<PeopleItem> = listOf()
 ) : Section(
     SectionParameters.builder()
         .itemResourceId(R.layout.people_item)
@@ -33,5 +33,8 @@ class MorePeopleSection(
         headerTextView.text = itemView.context.getString(R.string.more_people_header)
     }
 
+    fun postData(dataItems: List<PeopleItem>) {
+        this.dataItems = dataItems
+    }
 
 }

@@ -9,7 +9,7 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters
 import io.github.luizgrp.sectionedrecyclerviewadapter.utils.EmptyViewHolder
 
 class SuggestedSection(
-    private var dataItems: List<PeopleItem>
+    private var dataItems: List<PeopleItem> = listOf()
 ) : Section(
     SectionParameters
         .builder()
