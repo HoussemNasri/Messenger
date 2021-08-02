@@ -1,12 +1,9 @@
 package com.nasri.messenger.ui.newmessage
 
 import android.view.View
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.nasri.messenger.R
-import io.github.luizgrp.sectionedrecyclerviewadapter.Section
-import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters
-import io.github.luizgrp.sectionedrecyclerviewadapter.utils.EmptyViewHolder
+import com.nasri.messenger.ui.base.BaseSection
 
 class SuggestedSection : BaseSection<PeopleItem>(R.layout.people_item, R.string.suggested_header) {
 

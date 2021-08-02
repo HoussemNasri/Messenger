@@ -1,4 +1,4 @@
-package com.nasri.messenger.ui.newmessage
+package com.nasri.messenger.ui.base
 
 import android.view.View
 import android.widget.TextView
@@ -18,13 +18,15 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.utils.EmptyViewHolder
 abstract class BaseSection<T>(
     @LayoutRes private val itemResourceId: Int,
     @StringRes private val headerTitleStringId: Int = R.string.section_header_header,
-    @LayoutRes private val headerLayoutId: Int = R.layout.section_header,
-    @LayoutRes private val loadingLayoutId: Int = R.layout.section_header,
-    @LayoutRes private val failedLayoutId: Int = R.layout.section_header,
+    @LayoutRes private val headerResourceId: Int = R.layout.section_header,
+    @LayoutRes private val loadingResourceId: Int = R.layout.section_loading,
+    @LayoutRes private val failedResourceId: Int = R.layout.section_header,
 ) : Section(
     SectionParameters.builder()
         .itemResourceId(itemResourceId)
-        .headerResourceId(headerLayoutId)
+        .headerResourceId(headerResourceId)
+        .loadingResourceId(loadingResourceId)
+        .failedResourceId(failedResourceId)
         .build()
 ) {
     internal var dataItems: List<T> = listOf()
@@ -38,6 +40,8 @@ abstract class BaseSection<T>(
         val headerTextView = holder.itemView.findViewById<TextView>(R.id.header)
         headerTextView.text = itemView.context.getString(headerTitleStringId)
     }
+
+    override fun getLoadingViewHolder(view: View?): RecyclerView.ViewHolder = EmptyViewHolder(view)
 
     fun setData(dataItems: List<T>) {
         this.dataItems = dataItems

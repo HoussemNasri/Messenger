@@ -15,13 +15,15 @@ import com.nasri.messenger.domain.result.data
 import com.nasri.messenger.domain.result.succeeded
 import com.nasri.messenger.domain.user.UserSearchUseCase
 import com.nasri.messenger.ui.base.BaseFragment
+import io.github.luizgrp.sectionedrecyclerviewadapter.Section
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter
-import timber.log.Timber
 
 
 class NewMessageFragment : BaseFragment() {
 
     private lateinit var binding: FragmentNewMessageBinding
+
+    private lateinit var sectionsAdapter: SectionedRecyclerViewAdapter
 
     val viewModel: NewMessageViewModel by viewModels {
         val firebaseService = FirebaseUserService(FirebaseFirestore.getInstance())
@@ -51,28 +53,62 @@ class NewMessageFragment : BaseFragment() {
         // based on number of messages and interaction between the two users
         viewModel.onSearchQuery("")
 
-        val sectionAdapter = SectionedRecyclerViewAdapter()
+        sectionsAdapter = SectionedRecyclerViewAdapter()
         val suggestedSection = SuggestedSection()
         val morePeopleSection = MorePeopleSection()
 
-        sectionAdapter.addSection(suggestedSection)
-        sectionAdapter.addSection(morePeopleSection)
+        sectionsAdapter.addSection(suggestedSection)
+        sectionsAdapter.addSection(morePeopleSection)
 
         viewModel.userSearchResponse.observe(viewLifecycleOwner, {
             if (it.succeeded) {
                 suggestedSection.setData(it.data!!.contacts.map { contact -> toPeopleItem(contact) })
                 morePeopleSection.setData(it.data!!.people.map { people -> toPeopleItem(people) })
-                sectionAdapter.notifyDataSetChanged()
+                sectionsAdapter.notifyDataSetChanged()
             } else {
                 // TODO('Handle failing')
             }
         })
 
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
-        binding.recyclerView.adapter = sectionAdapter
+        binding.recyclerView.adapter = sectionsAdapter
 
         binding.searchEditText.doAfterTextChanged {
             viewModel.onSearchQuery(it?.toString() ?: "")
+        }
+
+        viewModel.showProgress.observe(viewLifecycleOwner, { isShowProgress ->
+            if (isShowProgress == true) {
+                onSectionLoadingStarted(suggestedSection)
+                onSectionLoadingStarted(morePeopleSection)
+            } else {
+                onSectionLoaded(suggestedSection)
+                onSectionLoaded(morePeopleSection)
+            }
+        })
+    }
+
+    private fun onSectionLoaded(section: Section) {
+        val sectionAdapter = sectionsAdapter.getAdapterForSection(section)
+        val state = section.state
+
+        section.state = Section.State.LOADED
+        if (state != Section.State.LOADED) {
+            sectionAdapter.notifyStateChangedToLoaded(state)
+        }
+    }
+
+    private fun onSectionLoadingStarted(section: Section) {
+        val sectionAdapter = sectionsAdapter.getAdapterForSection(section)
+        val state = section.state
+        val itemsCount = section.contentItemsTotal
+
+        section.state = Section.State.LOADING
+        if (state == Section.State.LOADED) {
+            sectionAdapter.notifyStateChangedFromLoaded(itemsCount)
+        } else {
+            if (state != Section.State.LOADING)
+                sectionAdapter.notifyNotLoadedStateChanged(state)
         }
     }
 
