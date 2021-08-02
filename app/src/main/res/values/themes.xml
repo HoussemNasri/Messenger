@@ -28,11 +28,8 @@
 
         <item name="android:colorBackground">@color/background</item>
 
-        <item name="android:textViewStyle">@style/AppTheme.TextView</item>
-
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:statusBarColor">@color/background</item>
-
 
 
         <item name="colorPrimary">@color/primary</item>
@@ -41,11 +38,11 @@
         <item name="colorOnPrimarySurface">#ffffff</item>
 
 
-
     </style>
 
-    <style name="AppTheme.TextView" parent="Widget.AppCompat.TextView">
-        <item name="fontFamily">@font/livesport_regular</item>
+
+    <style name="AppTheme.TextAppearance.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+
     </style>
 
     <style name="AppTheme.TextAppearance.HeadLine" parent="TextAppearance.AppCompat.Headline">
@@ -55,11 +52,10 @@
     </style>
 
 
-    <style name="AppThemeToolbar.TextAppearance"  parent="TextAppearance.MaterialComponents.Headline6">
+    <style name="AppThemeToolbar.TextAppearance" parent="TextAppearance.MaterialComponents.Headline6">
         <item name="fontFamily">@font/livesport_bold</item>
         <item name="android:textSize">26sp</item>
     </style>
-
 
 
     <style name="AppTheme" parent="BaseAppTheme">
@@ -85,6 +81,11 @@
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">@color/color_on_secondary</item>
         <item name="rippleColor">@color/light_gray_50</item>
+    </style>
+
+    <style name="AppTheme.SearchText">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">?android:textColorHint</item>
     </style>
 
 
