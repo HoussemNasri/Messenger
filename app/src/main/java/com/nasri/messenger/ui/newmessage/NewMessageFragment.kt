@@ -11,8 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
 import com.nasri.messenger.data.user.*
 import com.nasri.messenger.databinding.FragmentNewMessageBinding
-import com.nasri.messenger.domain.result.data
-import com.nasri.messenger.domain.result.succeeded
+import com.nasri.messenger.domain.result.Result
 import com.nasri.messenger.domain.user.UserSearchUseCase
 import com.nasri.messenger.ui.base.BaseFragment
 import io.github.luizgrp.sectionedrecyclerviewadapter.Section
@@ -25,10 +24,14 @@ class NewMessageFragment : BaseFragment() {
 
     private lateinit var sectionsAdapter: SectionedRecyclerViewAdapter
 
+    private lateinit var suggestedSection: SuggestedSection
+
+    private lateinit var morePeopleSection: MorePeopleSection
+
     val viewModel: NewMessageViewModel by viewModels {
         val firebaseService = FirebaseUserService(FirebaseFirestore.getInstance())
         val dummyService = DummyUserService()
-        val userId = preferenceStorage.getCurrentUserInfo()?.getUid() ?: ""
+        val userId = preferenceStorage.getCurrentUserInfo()?.uuid ?: ""
 
         val contactRepository = ContactRepository(userId, dummyService)
         val peopleRepository = PeopleRepository(dummyService)
@@ -54,19 +57,30 @@ class NewMessageFragment : BaseFragment() {
         viewModel.onSearchQuery("")
 
         sectionsAdapter = SectionedRecyclerViewAdapter()
-        val suggestedSection = SuggestedSection()
-        val morePeopleSection = MorePeopleSection()
+        suggestedSection = SuggestedSection()
+        morePeopleSection = MorePeopleSection()
 
         sectionsAdapter.addSection(suggestedSection)
         sectionsAdapter.addSection(morePeopleSection)
 
         viewModel.userSearchResponse.observe(viewLifecycleOwner, {
-            if (it.succeeded) {
-                suggestedSection.setData(it.data!!.contacts.map { contact -> toPeopleItem(contact) })
-                morePeopleSection.setData(it.data!!.people.map { people -> toPeopleItem(people) })
-                sectionsAdapter.notifyDataSetChanged()
-            } else {
-                // TODO('Handle failing')
+            hideLoadingForAllSections()
+            when (it) {
+                is Result.Success -> {
+                    suggestedSection.setData(it.data!!.contacts.map { contact ->
+                        toPeopleItem(
+                            contact
+                        )
+                    })
+                    morePeopleSection.setData(it.data!!.people.map { people -> toPeopleItem(people) })
+                    sectionsAdapter.notifyDataSetChanged()
+                }
+                is Result.Loading -> {
+                    showLoadingForAllSections()
+                }
+                is Result.Error -> {
+                    // TODO('Handle Errors')
+                }
             }
         })
 
@@ -76,16 +90,16 @@ class NewMessageFragment : BaseFragment() {
         binding.searchEditText.doAfterTextChanged {
             viewModel.onSearchQuery(it?.toString() ?: "")
         }
+    }
 
-        viewModel.showProgress.observe(viewLifecycleOwner, { isShowProgress ->
-            if (isShowProgress == true) {
-                onSectionLoadingStarted(suggestedSection)
-                onSectionLoadingStarted(morePeopleSection)
-            } else {
-                onSectionLoaded(suggestedSection)
-                onSectionLoaded(morePeopleSection)
-            }
-        })
+    private fun showLoadingForAllSections() {
+        onSectionLoadingStarted(suggestedSection)
+        onSectionLoadingStarted(morePeopleSection)
+    }
+
+    private fun hideLoadingForAllSections() {
+        onSectionLoaded(suggestedSection)
+        onSectionLoaded(morePeopleSection)
     }
 
     private fun onSectionLoaded(section: Section) {

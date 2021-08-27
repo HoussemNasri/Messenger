@@ -34,12 +34,11 @@ class NewMessageViewModel(
     }
 
     private fun executeSearch() {
-        showProgress()
+        _userSearchResult.postValue(Result.Loading)
         searchJob?.cancel()
         searchJob = viewModelScope.launch(Dispatchers.IO) {
             val result = userSearchUseCase(UserSearchUseCaseParams(userId, currentQuery))
             _userSearchResult.postValue(result)
-            hideProgress()
         }
     }
 }
