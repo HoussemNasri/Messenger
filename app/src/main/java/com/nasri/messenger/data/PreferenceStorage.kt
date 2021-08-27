@@ -10,8 +10,8 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.nasri.messenger.data.gson.UserInfoGsonAdapter
 import com.nasri.messenger.data.gson.UriTypeAdapter
-import com.nasri.messenger.domain.user.AuthenticatedUserInfo
-import com.nasri.messenger.domain.user.LocalUserInfo
+import com.nasri.messenger.domain.user.AuthenticatedUser
+import com.nasri.messenger.domain.user.SimpleAuthenticatedUser
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
@@ -21,9 +21,9 @@ import kotlin.reflect.KProperty
  */
 interface PreferenceStorage {
     var isUserLoggedIn: Boolean
-    fun saveAuthenticatedUser(userInfo: AuthenticatedUserInfo)
+    fun saveAuthenticatedUser(userInfo: AuthenticatedUser)
     fun removeAuthenticatedUser()
-    fun getCurrentUserInfo(): AuthenticatedUserInfo?
+    fun getCurrentUserInfo(): AuthenticatedUser?
 }
 
 /**
@@ -46,19 +46,19 @@ class SharedPreferenceStorage constructor(
 
     override var isUserLoggedIn by BooleanPreference(prefs, IS_SIGNED_IN, false)
 
-    override fun saveAuthenticatedUser(userInfo: AuthenticatedUserInfo) {
+    override fun saveAuthenticatedUser(userInfo: AuthenticatedUser) {
         prefs.value.edit().apply {
-            putString(AUTH_USER_EMAIL, userInfo.getEmail())
-            putBoolean(AUTH_IS_ANONYMOUS, userInfo.isAnonymous() ?: false)
-            putString(AUTH_PHONE_NUMBER, userInfo.getPhoneNumber())
-            putString(AUTH_UUID, userInfo.getUid())
-            putBoolean(AUTH_IS_EMAIL_VERIFIED, userInfo.isEmailVerified() ?: false)
-            putString(AUTH_DISPLAY_NAME, userInfo.getDisplayName())
-            putString(AUTH_PHOTO_URL, userInfo.getPhotoUrl().toString())
-            putString(AUTH_PROVIDER_ID, userInfo.getProviderId())
-            putLong(AUTH_LAST_SIGNIN, userInfo.getLastSignInTimestamp() ?: -1)
-            putLong(AUTH_ACCOUNT_CREATION, userInfo.getCreationTimestamp() ?: -1)
-            putProviderDataString(this, userInfo.getProviderData())
+            putString(AUTH_USER_EMAIL, userInfo.email)
+            putBoolean(AUTH_IS_ANONYMOUS, userInfo.isAnonymous ?: false)
+            putString(AUTH_PHONE_NUMBER, userInfo.phone)
+            putString(AUTH_UUID, userInfo.uuid)
+            putBoolean(AUTH_IS_EMAIL_VERIFIED, userInfo.isEmailVerified ?: false)
+            putString(AUTH_DISPLAY_NAME, userInfo.displayName)
+            putString(AUTH_PHOTO_URL, userInfo.photoUrl.toString())
+            putString(AUTH_PROVIDER_ID, userInfo.providerId)
+            putLong(AUTH_LAST_SIGNIN, userInfo.lastTimestamp ?: -1)
+            putLong(AUTH_ACCOUNT_CREATION, userInfo.creationTimestamp ?: -1)
+            putProviderDataString(this, userInfo.providerData)
             putBoolean(IS_SIGNED_IN, true)
         }.apply()
 
@@ -93,7 +93,7 @@ class SharedPreferenceStorage constructor(
         }.apply()
     }
 
-    override fun getCurrentUserInfo(): AuthenticatedUserInfo? {
+    override fun getCurrentUserInfo(): AuthenticatedUser? {
         if (!isUserLoggedIn) {
             return null
         }
@@ -109,7 +109,7 @@ class SharedPreferenceStorage constructor(
         val creationTimestamp = prefs.value.getLong(AUTH_ACCOUNT_CREATION, -1L)
         val providerDataJson = prefs.value.getString(AUTH_PROVIDER_DATA, "")
 
-        return LocalUserInfo(
+        return SimpleAuthenticatedUser(
             email,
             isAnonymous,
             phoneNumber,
