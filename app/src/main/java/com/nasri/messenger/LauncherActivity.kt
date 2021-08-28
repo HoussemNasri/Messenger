@@ -9,13 +9,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.GsonBuilder
 import com.nasri.messenger.LaunchDestination.MAIN_ACTIVITY
 import com.nasri.messenger.LaunchDestination.REGISTRATION
-import com.nasri.messenger.data.RegistrationUtil
 import com.nasri.messenger.data.gson.UserInfoGsonAdapter
 import com.nasri.messenger.data.gson.UriTypeAdapter
 import com.nasri.messenger.domain.prefs.UserLoggedInUseCase
 import com.nasri.messenger.ui.base.BaseActivity
 import com.nasri.messenger.ui.home.MainActivity
-import com.nasri.messenger.ui.registration.RegistrationActivity
+import com.nasri.messenger.ui.auth.RegistrationActivity
 import timber.log.Timber
 
 
@@ -38,7 +37,7 @@ class LauncherActivity : BaseActivity() {
                 FirebaseAuth.getInstance().currentUser?.providerData?.map { UserInfoGsonAdapter(it) }
             val providerDataJson = gson.toJson(providerData)
             Timber.d(providerDataJson)
-            Timber.d(preferenceStorage.getCurrentUserInfo()?.getProviderData()?.get(0)?.photoUrl.toString())
+            Timber.d(preferenceStorage.getCurrentUser()?.providerData?.get(0)?.photoUrl.toString())
         }
 
         // TODO (Just for testing)

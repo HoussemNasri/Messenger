@@ -10,8 +10,8 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.nasri.messenger.data.gson.UserInfoGsonAdapter
 import com.nasri.messenger.data.gson.UriTypeAdapter
-import com.nasri.messenger.domain.user.AuthenticatedUser
-import com.nasri.messenger.domain.user.SimpleAuthenticatedUser
+import com.nasri.messenger.domain.user.CurrentUser
+import com.nasri.messenger.domain.user.SimpleCurrentUser
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
@@ -21,9 +21,9 @@ import kotlin.reflect.KProperty
  */
 interface PreferenceStorage {
     var isUserLoggedIn: Boolean
-    fun saveAuthenticatedUser(userInfo: AuthenticatedUser)
-    fun removeAuthenticatedUser()
-    fun getCurrentUserInfo(): AuthenticatedUser?
+    fun setCurrentUser(userInfo: CurrentUser)
+    fun removeCurrentUser()
+    fun getCurrentUser(): CurrentUser?
 }
 
 /**
@@ -46,7 +46,7 @@ class SharedPreferenceStorage constructor(
 
     override var isUserLoggedIn by BooleanPreference(prefs, IS_SIGNED_IN, false)
 
-    override fun saveAuthenticatedUser(userInfo: AuthenticatedUser) {
+    override fun setCurrentUser(userInfo: CurrentUser) {
         prefs.value.edit().apply {
             putString(AUTH_USER_EMAIL, userInfo.email)
             putBoolean(AUTH_IS_ANONYMOUS, userInfo.isAnonymous ?: false)
@@ -76,7 +76,7 @@ class SharedPreferenceStorage constructor(
         ))
     }
 
-    override fun removeAuthenticatedUser() {
+    override fun removeCurrentUser() {
         prefs.value.edit().apply {
             remove(AUTH_USER_EMAIL)
             remove(AUTH_IS_ANONYMOUS)
@@ -93,7 +93,7 @@ class SharedPreferenceStorage constructor(
         }.apply()
     }
 
-    override fun getCurrentUserInfo(): AuthenticatedUser? {
+    override fun getCurrentUser(): CurrentUser? {
         if (!isUserLoggedIn) {
             return null
         }
@@ -109,7 +109,7 @@ class SharedPreferenceStorage constructor(
         val creationTimestamp = prefs.value.getLong(AUTH_ACCOUNT_CREATION, -1L)
         val providerDataJson = prefs.value.getString(AUTH_PROVIDER_DATA, "")
 
-        return SimpleAuthenticatedUser(
+        return SimpleCurrentUser(
             email,
             isAnonymous,
             phoneNumber,

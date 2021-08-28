@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.firebase.firestore.FirebaseFirestore
 import com.nasri.messenger.data.user.*
 import com.nasri.messenger.databinding.FragmentNewMessageBinding
 import com.nasri.messenger.domain.result.Result
@@ -29,9 +28,8 @@ class NewMessageFragment : BaseFragment() {
     private lateinit var morePeopleSection: MorePeopleSection
 
     val viewModel: NewMessageViewModel by viewModels {
-        val firebaseService = FirebaseUserService(FirebaseFirestore.getInstance())
         val dummyService = DummyUserService()
-        val userId = preferenceStorage.getCurrentUserInfo()?.uuid ?: ""
+        val userId = preferenceStorage.getCurrentUser()?.uuid ?: ""
 
         val contactRepository = ContactRepository(userId, dummyService)
         val peopleRepository = PeopleRepository(dummyService)

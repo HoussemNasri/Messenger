@@ -1,4 +1,4 @@
-package com.nasri.messenger.ui.registration.signin
+package com.nasri.messenger.ui.auth.signin
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,8 +17,8 @@ import com.nasri.messenger.data.firebase.FirebaseConstants.Companion.FIRE_DISPLA
 import com.nasri.messenger.data.firebase.FirebaseConstants.Companion.FIRE_LAST_SIGN_IN
 import com.nasri.messenger.data.firebase.FirebaseConstants.Companion.FIRE_PHOTO_URL
 import com.nasri.messenger.domain.result.Result
-import com.nasri.messenger.domain.user.AuthenticatedUser
-import com.nasri.messenger.domain.user.FirebaseAuthenticatedUser
+import com.nasri.messenger.domain.user.CurrentUser
+import com.nasri.messenger.domain.user.FirebaseCurrentUser
 import com.nasri.messenger.ui.base.BaseViewModel
 import timber.log.Timber
 
@@ -27,11 +27,11 @@ class SignInViewModel : BaseViewModel(), OnFailureListener,
     OnCanceledListener, OnSuccessListener<AuthResult> {
 
 
-    private val _authenticatedUserInfo: MutableLiveData<Result<AuthenticatedUser>> =
+    private val _currentUserInfo: MutableLiveData<Result<CurrentUser>> =
         MutableLiveData()
 
-    val authenticatedUserInfo: LiveData<Result<AuthenticatedUser>>
-        get() = _authenticatedUserInfo
+    val currentUserInfo: LiveData<Result<CurrentUser>>
+        get() = _currentUserInfo
 
     /** Sign In using email and password */
     fun performEmailSignIn(email: String, password: String) {
@@ -52,7 +52,7 @@ class SignInViewModel : BaseViewModel(), OnFailureListener,
 
     override fun onFailure(it: Exception) {
         hideProgress()
-        _authenticatedUserInfo.postValue(Result.Error(it))
+        _currentUserInfo.postValue(Result.Error(it))
     }
 
     override fun onCanceled() {
@@ -60,11 +60,11 @@ class SignInViewModel : BaseViewModel(), OnFailureListener,
     }
 
     override fun onSuccess(it: AuthResult?) {
-        val authenticatedUser = FirebaseAuthenticatedUser(it?.user!!)
+        val authenticatedUser = FirebaseCurrentUser(it?.user!!)
         createUserInFirestoreIfNotExist(authenticatedUser)
             .addOnSuccessListener {
                 Timber.d("Last Signed In : %d", authenticatedUser.lastTimestamp)
-                _authenticatedUserInfo.postValue(Result.Success(authenticatedUser))
+                _currentUserInfo.postValue(Result.Success(authenticatedUser))
             }.addOnFailureListener {
                 onFailure(it)
             }.addOnCompleteListener {
@@ -72,7 +72,7 @@ class SignInViewModel : BaseViewModel(), OnFailureListener,
             }
     }
 
-    private fun createUserInFirestoreIfNotExist(userInfo: AuthenticatedUser): Task<Void> {
+    private fun createUserInFirestoreIfNotExist(userInfo: CurrentUser): Task<Void> {
         val db = FirebaseFirestore.getInstance()
         val basicUserInfo = hashMapOf(
             FIRE_DISPLAY_NAME to (userInfo.displayName ?: ""),

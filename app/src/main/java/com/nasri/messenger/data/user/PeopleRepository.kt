@@ -1,9 +1,9 @@
 package com.nasri.messenger.data.user
 
-import com.nasri.messenger.domain.user.AuthenticatedUser
+import com.nasri.messenger.domain.user.CurrentUser
 
 /**
- * This repository manages the data of people that [AuthenticatedUser] NOT in contact with
+ * This repository manages the data of people that [CurrentUser] NOT in contact with
  * */
 class PeopleRepository(
     private val userService: UserService

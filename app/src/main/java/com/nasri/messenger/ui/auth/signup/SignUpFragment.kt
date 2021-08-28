@@ -1,11 +1,10 @@
-package com.nasri.messenger.ui.registration.signup
+package com.nasri.messenger.ui.auth.signup
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController

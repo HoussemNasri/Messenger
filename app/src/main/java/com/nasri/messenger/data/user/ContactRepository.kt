@@ -1,9 +1,9 @@
 package com.nasri.messenger.data.user
 
-import com.nasri.messenger.domain.user.AuthenticatedUser
+import com.nasri.messenger.domain.user.CurrentUser
 
 /**
- * This repository manages the data of [AuthenticatedUser] contacts
+ * This repository manages the data of [CurrentUser] contacts
  * */
 class ContactRepository(
     private val authenticatedUserId: String,

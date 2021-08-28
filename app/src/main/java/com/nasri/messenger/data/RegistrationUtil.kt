@@ -31,7 +31,7 @@ object RegistrationUtil {
     }
 
     fun signOutLocalProvider(preferenceStorage: PreferenceStorage) {
-        preferenceStorage.removeAuthenticatedUser()
+        preferenceStorage.removeCurrentUser()
     }
 
     suspend fun signOutAllProviders(activity: Activity) {

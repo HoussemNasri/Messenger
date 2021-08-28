@@ -1,11 +1,10 @@
 package com.nasri.messenger.domain.user
 
-import android.net.Uri
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserInfo
 
 
-abstract class AuthenticatedUser {
+abstract class CurrentUser {
     abstract var email: String?
     abstract var isAnonymous: Boolean?
     abstract var phone: String?
@@ -20,11 +19,11 @@ abstract class AuthenticatedUser {
 }
 
 /**
- * Delegates [AuthenticatedUser] calls to a [FirebaseUser] to be used in production.
+ * Delegates [CurrentUser] calls to a [FirebaseUser] to be used in production.
  * */
-open class FirebaseAuthenticatedUser(
+open class FirebaseCurrentUser(
     private val firebaseUser: FirebaseUser
-) : AuthenticatedUser() {
+) : CurrentUser() {
     override var email: String? = firebaseUser.email
     override var isAnonymous: Boolean? = firebaseUser.isAnonymous
     override var phone: String? = firebaseUser.phoneNumber
@@ -39,9 +38,9 @@ open class FirebaseAuthenticatedUser(
 }
 
 /**
- * Simple implementation of [AuthenticatedUser] to be used primarily in SharedPreferences
+ * Simple implementation of [CurrentUser] to be used primarily in SharedPreferences
  * */
-data class SimpleAuthenticatedUser(
+data class SimpleCurrentUser(
     override var email: String?,
     override var isAnonymous: Boolean?,
     override var phone: String?,
@@ -53,4 +52,4 @@ data class SimpleAuthenticatedUser(
     override var lastTimestamp: Long?,
     override var creationTimestamp: Long?,
     override var providerData: List<UserInfo>
-) : AuthenticatedUser()
+) : CurrentUser()

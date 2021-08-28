@@ -7,10 +7,10 @@ import com.nasri.messenger.data.firebase.FirebaseConstants
 import com.nasri.messenger.data.firebase.toUserData
 
 interface UserService {
-    suspend fun getUserById(id: String): UserData?
-    suspend fun getUsers(query: String? = null, limit: Long = 20): List<UserData>
-    suspend fun getContactById(userId: String, contactId: String): UserData?
-    suspend fun getUserContacts(
+    fun getUserById(id: String): UserData?
+    fun getUsers(query: String? = null, limit: Long = 20): List<UserData>
+    fun getContactById(userId: String, contactId: String): UserData?
+    fun getUserContacts(
         userId: String,
         query: String? = null,
         limit: Long = 20L
@@ -20,7 +20,7 @@ interface UserService {
 class FirebaseUserService(
     private val db: FirebaseFirestore
 ) : UserService {
-    override suspend fun getUserById(id: String): UserData? {
+    override fun getUserById(id: String): UserData? {
         val getUserTask = db.collection(FirebaseConstants.FIRE_COLL_USERS)
             .document(id).get()
         val documentSnapshot = Tasks.await(getUserTask)
@@ -32,7 +32,7 @@ class FirebaseUserService(
         }
     }
 
-    override suspend fun getUsers(query: String?, limit: Long): List<UserData> {
+    override fun getUsers(query: String?, limit: Long): List<UserData> {
         val getUsersTask = db.collection(FirebaseConstants.FIRE_COLL_USERS)
             .orderBy(FirebaseConstants.FIRE_DISPLAY_NAME)
             .limit(limit).get()
@@ -44,7 +44,7 @@ class FirebaseUserService(
         }
     }
 
-    override suspend fun getContactById(userId: String, contactId: String): UserData? {
+    override fun getContactById(userId: String, contactId: String): UserData? {
         val getOneContactTask = db.collection(FirebaseConstants.FIRE_COLL_USERS)
             .document(userId).collection(FirebaseConstants.FIRE_COLL_CONTACTS)
             .document(contactId).get()
@@ -56,7 +56,7 @@ class FirebaseUserService(
         }
     }
 
-    override suspend fun getUserContacts(
+    override fun getUserContacts(
         userId: String,
         query: String?,
         limit: Long
@@ -77,19 +77,19 @@ class FirebaseUserService(
 }
 
 class DummyUserService() : UserService {
-    override suspend fun getUserById(id: String): UserData? {
+    override fun getUserById(id: String): UserData? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getUsers(query: String?, limit: Long): List<UserData> {
+    override fun getUsers(query: String?, limit: Long): List<UserData> {
         return RandomUsers.getRandomUsers(limit)
     }
 
-    override suspend fun getContactById(userId: String, contactId: String): UserData? {
+    override fun getContactById(userId: String, contactId: String): UserData? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getUserContacts(
+    override fun getUserContacts(
         userId: String,
         query: String?,
         limit: Long
@@ -125,6 +125,8 @@ fun UserData.mapToContact(): UserData.Contact =
     UserData.Contact(id, name, avatarUrl, email, lastSignedIn ?: -1)
 
 fun UserData.mapToPeople(): UserData.People = UserData.People(id, name, avatarUrl)
+
+fun UserData.mapToUserEntity(): UserEntity = UserEntity()
 
 
 

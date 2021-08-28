@@ -21,7 +21,7 @@
     </fragment>
     <activity
         android:id="@+id/registrationActivity"
-        android:name="com.nasri.messenger.ui.registration.RegistrationActivity"
+        android:name="com.nasri.messenger.ui.auth.RegistrationActivity"
         android:label="activity_registration"
         tools:layout="@layout/activity_registration" />
     <fragment

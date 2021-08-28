@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:paddingHorizontal="24dp"
     android:paddingVertical="8dp"
-    tools:context=".ui.registration.signup.SignUpFragment">
+    tools:context=".ui.auth.signup.SignUpFragment">
 
 
     <com.google.android.material.textfield.TextInputLayout

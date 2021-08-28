@@ -1,4 +1,4 @@
-package com.nasri.messenger.ui.registration.signin
+package com.nasri.messenger.ui.auth.signin
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
@@ -77,9 +77,9 @@ class SignInFragment : BaseFragment() {
             viewModel.performEmailSignIn(email, password)
         }
 
-        viewModel.authenticatedUserInfo.observe(viewLifecycleOwner, {
+        viewModel.currentUserInfo.observe(viewLifecycleOwner, {
             if (it.succeeded && it != null) {
-                preferenceStorage.saveAuthenticatedUser(it.data!!)
+                preferenceStorage.setCurrentUser(it.data!!)
                 requireActivity().finish()
                 findNavController().navigate(R.id.action_signInFragment_to_mainActivity)
 

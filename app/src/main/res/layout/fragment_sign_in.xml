@@ -8,7 +8,7 @@
     android:paddingHorizontal="24dp"
     android:paddingVertical="8dp"
     android:orientation="vertical"
-    tools:context=".ui.registration.signin.SignInFragment"
+    tools:context=".ui.auth.signin.SignInFragment"
     android:animateLayoutChanges="true">
 
 
