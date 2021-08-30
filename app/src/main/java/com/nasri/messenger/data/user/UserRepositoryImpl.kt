@@ -31,4 +31,8 @@ class UserRepositoryImpl(
             )
         )
     }
+
+    override suspend fun isUserExists(email: String): Boolean {
+        return userService.getUserByEmail(email) != null
+    }
 }

@@ -31,4 +31,10 @@ interface UserRepository {
      * Create a new entry in the remote and local database with [user] information
      * */
     suspend fun insertUser(user: User)
+
+    /**
+     * Returns True if user with [email] exists in our database, False otherwise
+     * @param email the email of the user to search for
+     * */
+    suspend fun isUserExists(email: String): Boolean
 }

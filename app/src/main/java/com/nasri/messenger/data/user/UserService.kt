@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit
 
 interface UserService {
     fun getUserById(id: String): UserData?
+    fun getUserByEmail(email: String): UserData?
     fun getUsers(query: String? = null, limit: Long = 20): List<UserData>
     fun getContactById(userId: String, contactId: String): UserData?
     fun getUserContacts(
@@ -39,6 +40,18 @@ class FirebaseUserService(
 
         return if (getUserTask.isSuccessful) {
             documentSnapshot.toUserData()
+        } else {
+            null
+        }
+    }
+
+    override fun getUserByEmail(email: String): UserData? {
+        val getUserTask = db.collection(FirebaseConstants.FIRE_COLL_USERS)
+            .whereEqualTo(FirebaseConstants.FIRE_EMAIL, email).limit(1).get()
+        val querySnapshot = Tasks.await(getUserTask)
+
+        return if (getUserTask.isSuccessful && querySnapshot.size() > 0) {
+            querySnapshot.documents[0].toUserData()
         } else {
             null
         }
@@ -116,6 +129,10 @@ class FirebaseUserService(
 
 class DummyUserService() : UserService {
     override fun getUserById(id: String): UserData? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getUserByEmail(email: String): UserData? {
         TODO("Not yet implemented")
     }
 
