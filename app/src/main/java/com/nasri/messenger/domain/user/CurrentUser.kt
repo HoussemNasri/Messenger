@@ -8,9 +8,9 @@ abstract class CurrentUser {
     abstract var email: String?
     abstract var isAnonymous: Boolean?
     abstract var phone: String?
-    abstract var uuid: String?
+    abstract var uid: String?
     abstract var isEmailVerified: Boolean?
-    abstract var displayName: String?
+    abstract var username: String?
     abstract var photoUrl: String?
     abstract var providerId: String?
     abstract var lastTimestamp: Long?
@@ -27,9 +27,9 @@ open class FirebaseCurrentUser(
     override var email: String? = firebaseUser.email
     override var isAnonymous: Boolean? = firebaseUser.isAnonymous
     override var phone: String? = firebaseUser.phoneNumber
-    override var uuid: String? = firebaseUser.uid
+    override var uid: String? = firebaseUser.uid
     override var isEmailVerified: Boolean? = firebaseUser.isEmailVerified
-    override var displayName: String? = firebaseUser.displayName
+    override var username: String? = firebaseUser.displayName
     override var photoUrl: String? = firebaseUser.photoUrl.toString()
     override var providerId: String? = firebaseUser.providerId
     override var lastTimestamp: Long? = firebaseUser.metadata?.lastSignInTimestamp
@@ -44,9 +44,9 @@ data class SimpleCurrentUser(
     override var email: String?,
     override var isAnonymous: Boolean?,
     override var phone: String?,
-    override var uuid: String?,
+    override var uid: String?,
     override var isEmailVerified: Boolean?,
-    override var displayName: String?,
+    override var username: String?,
     override var photoUrl: String?,
     override var providerId: String?,
     override var lastTimestamp: Long?,

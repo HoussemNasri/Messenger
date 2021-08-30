@@ -5,7 +5,7 @@ import com.nasri.messenger.data.user.UserData
 class FirebaseConstants {
     companion object {
         const val FIRE_PHOTO_URL = "photoUrl"
-        const val FIRE_DISPLAY_NAME = "displayName"
+        const val FIRE_USERNAME = "username"
         const val FIRE_LAST_SIGN_IN = "lastSignIn"
         const val FIRE_ACCOUNT_CREATION = "CreatedAt"
         const val FIRE_PHONE = "phoneNUmber"

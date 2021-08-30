@@ -16,7 +16,7 @@ data class UserSearchResponse(
     val people: List<com.nasri.messenger.data.user.UserData.People>
 )
 
-class UserSearchUseCase(
+class SearchUsersUseCase(
     private val contactRepository: ContactRepository,
     private val peopleRepository: PeopleRepository
 ) : UseCase<UserSearchUseCaseParams, UserSearchResponse>(Dispatchers.IO) {

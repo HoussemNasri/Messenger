@@ -13,105 +13,105 @@ class RandomUsers {
                 "Micheal Gonzalez",
                 "https://randomuser.me/api/portraits/men/4.jpg",
                 "micheal.gonzalez@example.com",
-                null
+                null, null
             ),
             UserData(
                 UUID.randomUUID().toString(),
                 "Marian Hart",
                 "https://randomuser.me/api/portraits/women/62.jpg",
                 "marian.hart@example.com",
-                null
+                null, null
             ),
             UserData(
                 UUID.randomUUID().toString(),
                 "vincent rhodes",
                 "https://randomuser.me/api/portraits/men/7.jpg",
                 "vincent.rhodes@example.com",
-                null
+                null, null
             ),
             UserData(
                 UUID.randomUUID().toString(),
                 "steve moreno",
                 "https://randomuser.me/api/portraits/men/8.jpg",
                 "steve.moreno@example.com",
-                null
+                null, null
             ),
             UserData(
                 UUID.randomUUID().toString(),
                 "Angel Welch",
                 "https://randomuser.me/api/portraits/men/10.jpg",
                 "angel.welch@example.com",
-                null
+                null, null
             ),
             UserData(
                 UUID.randomUUID().toString(),
                 "Susan May",
                 "https://randomuser.me/api/portraits/women/23.jpg",
                 "susan.may@example.com",
-                null
+                null, null
             ),
             UserData(
                 UUID.randomUUID().toString(),
                 "Joanne Brewer",
                 "https://randomuser.me/api/portraits/women/26.jpg",
                 "joanne.brewer@example.com",
-                null
+                null, null
             ),
             UserData(
                 UUID.randomUUID().toString(),
                 "Marion Gardner",
                 "https://randomuser.me/api/portraits/men/58.jpg",
                 "marion.gardner@example.com",
-                null
+                null, null
             ),
             UserData(
                 UUID.randomUUID().toString(),
                 "Aaron Fleming",
                 "https://randomuser.me/api/portraits/men/29.jpg",
                 "aaron.fleming@example.com",
-                null
+                null, null
             ),
             UserData(
                 UUID.randomUUID().toString(),
                 "Mason Ford",
                 "https://randomuser.me/api/portraits/men/48.jpg",
                 "mason.ford@example.com",
-                null
+                null, null
             ),
             UserData(
                 UUID.randomUUID().toString(),
                 "Veronica Fernandez",
                 "https://randomuser.me/api/portraits/women/3.jpg",
                 "veronica.fernandez@example.com",
-                null
+                null, null
             ),
             UserData(
                 UUID.randomUUID().toString(),
                 "Arthur Wagner",
                 "https://randomuser.me/api/portraits/men/20.jpg",
                 "arthur.wagner@example.com",
-                null
+                null, null
             ),
             UserData(
                 UUID.randomUUID().toString(),
                 "Nina Alvarez",
                 "https://randomuser.me/api/portraits/women/12.jpg",
                 "nina.alvarez@example.com",
-                null
+                null, null
             ),
             UserData(
                 UUID.randomUUID().toString(),
                 "Billie Gomez",
                 "https://randomuser.me/api/portraits/women/17.jpg",
                 "billie.gomez@example.com",
-                null
+                null, null
             ),
             UserData(
                 UUID.randomUUID().toString(),
                 "Allison Foster",
                 "https://randomuser.me/api/portraits/women/24.jpg",
                 "allison.foster@example.com",
-                null
+                null, null
             ),
         )
 
@@ -121,42 +121,42 @@ class RandomUsers {
                 "joseph ellis",
                 "https://randomuser.me/api/portraits/men/36.jpg",
                 "joseph.ellis@example.com",
-                null
+                null, null
             ),
             UserData(
                 UUID.randomUUID().toString(),
                 "Becky Gonzales",
                 "https://randomuser.me/api/portraits/women/32.jpg",
                 "becky.gonzales@example.com",
-                null
+                null, null
             ),
             UserData(
                 UUID.randomUUID().toString(),
                 "Brennan Carpenter",
                 "https://randomuser.me/api/portraits/women/33.jpg",
                 "brennan.carpenter@example.com",
-                null
+                null, null
             ),
             UserData(
                 UUID.randomUUID().toString(),
                 "Edwin Stephens",
                 "https://randomuser.me/api/portraits/men/30.jpg",
                 "edwin.stephens@example.com",
-                null
+                null, null
             ),
             UserData(
                 UUID.randomUUID().toString(),
                 "Jason Gomez",
                 "https://randomuser.me/api/portraits/men/41.jpg",
                 "jason.gomez@example.com",
-                null
+                null, null
             ),
             UserData(
                 UUID.randomUUID().toString(),
                 "Freddie Cook",
                 "https://randomuser.me/api/portraits/men/43.jpg",
                 "freddie.cook@example.com",
-                null
+                null, null
             ),
         )
 

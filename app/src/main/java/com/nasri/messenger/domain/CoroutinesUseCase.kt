@@ -3,6 +3,7 @@ package com.nasri.messenger.domain
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import com.nasri.messenger.domain.result.Result
+import timber.log.Timber
 
 /**
  * Executes business logic synchronously or asynchronously using Coroutines.
@@ -26,6 +27,7 @@ abstract class UseCase<in P, R>(private val coroutineDispatcher: CoroutineDispat
                 }
             }
         } catch (e: Exception) {
+            Timber.e(e)
             Result.Error(e)
         }
     }

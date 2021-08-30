@@ -1,5 +1,7 @@
 package com.nasri.messenger.data.user
 
+import com.nasri.messenger.domain.user.User
+
 /**
  * [UserRepository] is responsible for fetching and organizing user data from different data sources
  * */
@@ -17,12 +19,14 @@ interface UserRepository {
      * */
     fun findUserByQuery(query: String, limit: Long): List<UserEntity>
 
-/*    *//**
+/*    */
+    /**
      * Returns the currently connected user information
      * *//*
     fun getCurrentUser(): AuthenticatedUser?
 
-    *//**
+    */
+    /**
      * Change the current user info
      * *//*
     fun setCurrentUser(user: AuthenticatedUser?)*/
@@ -33,4 +37,9 @@ interface UserRepository {
      * @param limit the maximum number of contacts to return
      * */
     fun getUserContacts(userId: String, limit: Long): List<UserEntity>
+
+    /**
+     * Create a new entry in the remote and local database with [user] information
+     * */
+    suspend fun insertUser(user: User)
 }

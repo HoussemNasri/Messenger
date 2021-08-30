@@ -1,5 +1,9 @@
 package com.nasri.messenger.data.user
 
+import com.google.firebase.FirebaseException
+import com.google.firebase.firestore.FirebaseFirestoreException
+import com.nasri.messenger.domain.user.User
+
 
 class UserRepositoryImpl(
     private val userService: UserService
@@ -14,5 +18,18 @@ class UserRepositoryImpl(
 
     override fun getUserContacts(userId: String, limit: Long): List<UserEntity> {
         TODO("Not yet implemented")
+    }
+
+    override suspend fun insertUser(user: User) {
+        userService.createUser(
+            UserData(
+                user.uid,
+                user.username,
+                user.photoUrl,
+                user.email,
+                user.lastTimestamp,
+                user.phone
+            )
+        )
     }
 }

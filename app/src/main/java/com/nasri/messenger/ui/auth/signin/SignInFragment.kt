@@ -15,14 +15,22 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.firestore.FirebaseFirestore
 import com.klinker.android.link_builder.Link
 import com.klinker.android.link_builder.applyLinks
 import com.nasri.messenger.R
+import com.nasri.messenger.data.SharedPreferenceStorage
 import com.nasri.messenger.data.firebase.FirebaseConstants.*
+import com.nasri.messenger.data.user.FirebaseAuthRepository
+import com.nasri.messenger.data.user.FirebaseUserService
+import com.nasri.messenger.data.user.UserRepositoryImpl
 import com.nasri.messenger.databinding.FragmentSignInBinding
 import com.nasri.messenger.domain.inputvalidation.EmailVerifier
 import com.nasri.messenger.domain.inputvalidation.PasswordVerifier
+import com.nasri.messenger.domain.registration.signin.SignInUseCase
+import com.nasri.messenger.domain.result.Result
 import com.nasri.messenger.domain.result.data
 import com.nasri.messenger.domain.result.succeeded
 import com.nasri.messenger.ui.base.BaseFragment
@@ -36,7 +44,15 @@ class SignInFragment : BaseFragment() {
 
     private lateinit var binding: FragmentSignInBinding
 
-    private val viewModel: SignInViewModel by viewModels()
+    private val viewModel: SignInViewModel by viewModels {
+        val auth = FirebaseAuth.getInstance()
+        val userService = FirebaseUserService(FirebaseFirestore.getInstance())
+        val userRepository = UserRepositoryImpl(userService)
+        val authRepository = FirebaseAuthRepository(
+            auth, userRepository, SharedPreferenceStorage(requireContext())
+        )
+        SignInViewModelFactory(SignInUseCase(authRepository))
+    }
 
     private lateinit var googleSignInClient: GoogleSignInClient
 
@@ -77,28 +93,22 @@ class SignInFragment : BaseFragment() {
             viewModel.performEmailSignIn(email, password)
         }
 
-        viewModel.currentUserInfo.observe(viewLifecycleOwner, {
-            if (it.succeeded && it != null) {
-                preferenceStorage.setCurrentUser(it.data!!)
-                requireActivity().finish()
-                findNavController().navigate(R.id.action_signInFragment_to_mainActivity)
-
-            } else {
-                Toast.makeText(
-                    this@SignInFragment.context,
-                    it.exceptionOrNull()?.message ?: "Unknown Error",
-                    Toast.LENGTH_LONG
-                ).show()
-                resetInputFields()
-            }
-        })
-
-        viewModel.showProgress.observe(viewLifecycleOwner, {
-            Timber.d("Context : %s", context.toString())
-            if (it) {
-                dialogManager.showProgressDialog()
-            } else {
-                dialogManager.hideProgressDialog()
+        viewModel.userSignedInEvent.observe(viewLifecycleOwner, {
+            dialogManager.hideProgressDialog()
+            when (it) {
+                is Result.Success -> {
+                    requireActivity().finish()
+                    findNavController().navigate(R.id.action_signInFragment_to_mainActivity)
+                }
+                is Result.Error -> {
+                    Toast.makeText(
+                        this@SignInFragment.context,
+                        it.exceptionOrNull()?.message ?: "Unknown Error",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    resetInputFields()
+                }
+                is Result.Loading -> dialogManager.showProgressDialog()
             }
         })
 

@@ -55,18 +55,18 @@ class SignUpViewModel : BaseViewModel(), OnSuccessListener<AuthResult>, OnFailur
     private fun addUserToFirestore(userInfo: CurrentUser): Task<Void> {
         val db = FirebaseFirestore.getInstance()
         val basicUserInfo = hashMapOf(
-            FirebaseConstants.FIRE_DISPLAY_NAME to (userInfo.displayName ?: "Jhon Doe"),
-            FirebaseConstants.FIRE_PHOTO_URL to generateRandomAvatar(userInfo.uuid),
+            FirebaseConstants.FIRE_USERNAME to (userInfo.username ?: "Jhon Doe"),
+            FirebaseConstants.FIRE_PHOTO_URL to generateRandomAvatar(userInfo.uid),
             FirebaseConstants.FIRE_LAST_SIGN_IN to userInfo.lastTimestamp,
             FirebaseConstants.FIRE_EMAIL to userInfo.email,
             FirebaseConstants.FIRE_ACCOUNT_CREATION to userInfo.creationTimestamp,
             FirebaseConstants.FIRE_PHONE to userInfo.phone
         )
         val map = emptyMap<Unit, Unit>()
-        db.collection(FirebaseConstants.FIRE_COLL_USERS).document(userInfo.uuid!!)
+        db.collection(FirebaseConstants.FIRE_COLL_USERS).document(userInfo.uid!!)
             .collection(FirebaseConstants.FIRE_COLL_CONTACTS).add(map)
 
-        return db.collection(FirebaseConstants.FIRE_COLL_USERS).document(userInfo.uuid!!)
+        return db.collection(FirebaseConstants.FIRE_COLL_USERS).document(userInfo.uid!!)
             .set(basicUserInfo)
     }
 

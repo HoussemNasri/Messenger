@@ -13,78 +13,55 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.nasri.messenger.data.firebase.FirebaseConstants.Companion.FIRE_COLL_CONTACTS
 import com.nasri.messenger.data.firebase.FirebaseConstants.Companion.FIRE_COLL_USERS
-import com.nasri.messenger.data.firebase.FirebaseConstants.Companion.FIRE_DISPLAY_NAME
+import com.nasri.messenger.data.firebase.FirebaseConstants.Companion.FIRE_USERNAME
 import com.nasri.messenger.data.firebase.FirebaseConstants.Companion.FIRE_LAST_SIGN_IN
 import com.nasri.messenger.data.firebase.FirebaseConstants.Companion.FIRE_PHOTO_URL
+import com.nasri.messenger.domain.registration.signin.SignInMethod
+import com.nasri.messenger.domain.registration.signin.SignInUseCase
 import com.nasri.messenger.domain.result.Result
 import com.nasri.messenger.domain.user.CurrentUser
 import com.nasri.messenger.domain.user.FirebaseCurrentUser
 import com.nasri.messenger.ui.base.BaseViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 
-class SignInViewModel : BaseViewModel(), OnFailureListener,
-    OnCanceledListener, OnSuccessListener<AuthResult> {
+class SignInViewModel(
+    private val signInUseCase: SignInUseCase
+) : BaseViewModel() {
 
 
-    private val _currentUserInfo: MutableLiveData<Result<CurrentUser>> =
+    private val _userSignedInEvent: MutableLiveData<Result<Unit>> =
         MutableLiveData()
 
-    val currentUserInfo: LiveData<Result<CurrentUser>>
-        get() = _currentUserInfo
+    val userSignedInEvent: LiveData<Result<Unit>> = _userSignedInEvent
 
     /** Sign In using email and password */
     fun performEmailSignIn(email: String, password: String) {
-        showProgress()
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
-            .addOnFailureListener(this)
-            .addOnSuccessListener(this)
+        // TODO('Use a custom coroutine scope')
+        GlobalScope.launch(Dispatchers.Main) {
+            _userSignedInEvent.postValue(Result.Loading)
+            _userSignedInEvent.postValue(
+                signInUseCase(
+                    SignInMethod.EmailAndPassword(
+                        email,
+                        password
+                    )
+                )!!
+            )
+        }
     }
 
     /** Sign In using credentials */
     fun performCredentialSignIn(credential: AuthCredential) {
-        showProgress()
-        FirebaseAuth.getInstance().signInWithCredential(credential)
-            .addOnFailureListener(this)
-            .addOnSuccessListener(this)
-    }
-
-
-    override fun onFailure(it: Exception) {
-        hideProgress()
-        _currentUserInfo.postValue(Result.Error(it))
-    }
-
-    override fun onCanceled() {
-        hideProgress()
-    }
-
-    override fun onSuccess(it: AuthResult?) {
-        val authenticatedUser = FirebaseCurrentUser(it?.user!!)
-        createUserInFirestoreIfNotExist(authenticatedUser)
-            .addOnSuccessListener {
-                Timber.d("Last Signed In : %d", authenticatedUser.lastTimestamp)
-                _currentUserInfo.postValue(Result.Success(authenticatedUser))
-            }.addOnFailureListener {
-                onFailure(it)
-            }.addOnCompleteListener {
-                hideProgress()
-            }
-    }
-
-    private fun createUserInFirestoreIfNotExist(userInfo: CurrentUser): Task<Void> {
-        val db = FirebaseFirestore.getInstance()
-        val basicUserInfo = hashMapOf(
-            FIRE_DISPLAY_NAME to (userInfo.displayName ?: ""),
-            FIRE_PHOTO_URL to userInfo.photoUrl.toString(),
-            FIRE_LAST_SIGN_IN to userInfo.lastTimestamp
-        )
-        val map = emptyMap<Unit, Unit>()
-        db.collection(FIRE_COLL_USERS).document(userInfo.uuid!!)
-            .collection(FIRE_COLL_CONTACTS).add(map)
-
-        return db.collection(FIRE_COLL_USERS).document(userInfo.uuid!!)
-            .set(basicUserInfo, SetOptions.mergeFields(FIRE_LAST_SIGN_IN))
+        GlobalScope.launch(Dispatchers.Main) {
+            _userSignedInEvent.postValue(Result.Loading)
+            _userSignedInEvent.postValue(
+                signInUseCase(SignInMethod.Credential(credential))!!
+            )
+        }
     }
 
 
