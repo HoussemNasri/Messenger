@@ -2,9 +2,7 @@ package com.nasri.messenger.ui.auth.signin
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.nasri.messenger.domain.registration.signin.SignInUseCase
-import com.nasri.messenger.domain.user.SearchUsersUseCase
-import com.nasri.messenger.ui.newmessage.NewMessageViewModel
+import com.nasri.messenger.domain.auth.signin.SignInUseCase
 import timber.log.Timber
 
 

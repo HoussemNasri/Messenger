@@ -4,8 +4,8 @@ import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.AuthCredential
-import com.nasri.messenger.domain.registration.signin.SignInMethod
-import com.nasri.messenger.domain.registration.signin.SignInUseCase
+import com.nasri.messenger.domain.auth.signin.SignInMethod
+import com.nasri.messenger.domain.auth.signin.SignInUseCase
 import com.nasri.messenger.domain.result.Result
 import com.nasri.messenger.ui.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers

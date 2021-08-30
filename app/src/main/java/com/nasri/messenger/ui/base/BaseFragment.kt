@@ -3,8 +3,8 @@ package com.nasri.messenger.ui.base
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import com.nasri.messenger.DialogManager
-import com.nasri.messenger.SimpleDialogManager
+import com.nasri.messenger.ui.DialogManager
+import com.nasri.messenger.ui.SimpleDialogManager
 import com.nasri.messenger.data.PreferenceStorage
 import com.nasri.messenger.data.SharedPreferenceStorage
 

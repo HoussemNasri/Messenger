@@ -1,4 +1,4 @@
-package com.nasri.messenger.domain.registration.signin
+package com.nasri.messenger.domain.auth.signin
 
 import com.google.firebase.auth.AuthCredential
 

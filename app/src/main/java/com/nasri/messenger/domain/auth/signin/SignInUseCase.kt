@@ -1,4 +1,4 @@
-package com.nasri.messenger.domain.registration.signin
+package com.nasri.messenger.domain.auth.signin
 
 import com.nasri.messenger.data.user.IAuthRepository
 import com.nasri.messenger.domain.UseCase

@@ -29,10 +29,8 @@ import com.nasri.messenger.data.user.UserRepositoryImpl
 import com.nasri.messenger.databinding.FragmentSignInBinding
 import com.nasri.messenger.domain.inputvalidation.EmailVerifier
 import com.nasri.messenger.domain.inputvalidation.PasswordVerifier
-import com.nasri.messenger.domain.registration.signin.SignInUseCase
+import com.nasri.messenger.domain.auth.signin.SignInUseCase
 import com.nasri.messenger.domain.result.Result
-import com.nasri.messenger.domain.result.data
-import com.nasri.messenger.domain.result.succeeded
 import com.nasri.messenger.ui.base.BaseFragment
 import timber.log.Timber
 

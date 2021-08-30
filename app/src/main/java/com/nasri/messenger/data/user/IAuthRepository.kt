@@ -14,4 +14,6 @@ interface IAuthRepository {
     suspend fun signInWithCredential(credential: AuthCredential)
 
     suspend fun signInWithEmailAndPassword(email: String, password: String)
+
+    suspend fun signUp(email: String, password: String, photoUrl: String? = null)
 }

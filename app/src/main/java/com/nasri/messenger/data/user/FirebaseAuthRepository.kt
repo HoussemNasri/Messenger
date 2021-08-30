@@ -5,10 +5,12 @@ import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.nasri.messenger.data.PreferenceStorage
 import com.nasri.messenger.domain.user.CurrentUser
 import com.nasri.messenger.domain.user.FirebaseCurrentUser
 import com.nasri.messenger.domain.user.User
+import com.nasri.messenger.domain.user.UserAlreadyExistsException
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
@@ -69,5 +71,30 @@ class FirebaseAuthRepository(
         currentUser.lastTimestamp,
         currentUser.photoUrl
     )
+
+    override suspend fun signUp(email: String, password: String, photoUrl: String?) {
+        if (userRepository.isUserExists(email)) {
+            throw UserAlreadyExistsException()
+        } else {
+            val signUpTask = auth.createUserWithEmailAndPassword(email, password)
+            val result = await(signUpTask)
+            if (signUpTask.isSuccessful) {
+                userRepository.insertUser(firebaseUserToUser(result.user!!, photoUrl))
+            } else {
+                throw signUpTask.exception!!
+            }
+        }
+    }
+
+    private fun firebaseUserToUser(firebaseUser: FirebaseUser, photoUrl: String? = null): User {
+        return User(
+            firebaseUser.email,
+            firebaseUser.phoneNumber,
+            firebaseUser.uid,
+            firebaseUser.displayName,
+            firebaseUser.metadata?.lastSignInTimestamp,
+            firebaseUser.photoUrl?.toString() ?: photoUrl
+        )
+    }
 
 }
