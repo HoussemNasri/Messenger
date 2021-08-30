@@ -7,36 +7,25 @@ import com.nasri.messenger.domain.user.User
  * */
 interface UserRepository {
     /**
-     * Returns the [UserEntity] of id [userId]
+     * Returns the [User] of id [userId]
      * @param userId the if of the user
      * */
-    suspend fun findUserById(userId: String): UserEntity?
+    suspend fun findUserById(userId: String): User?
 
     /**
      * Returns all users which their names match [query]
      * @param query the query to be used to search for users
      * @param limit the maximum number of users to return
      * */
-    fun findUserByQuery(query: String, limit: Long): List<UserEntity>
+    suspend fun findUsers(query: String?, limit: Long = 10): List<User>
 
-/*    */
-    /**
-     * Returns the currently connected user information
-     * *//*
-    fun getCurrentUser(): AuthenticatedUser?
-
-    */
-    /**
-     * Change the current user info
-     * *//*
-    fun setCurrentUser(user: AuthenticatedUser?)*/
 
     /**
      * Returns a list of people in contact with [userId]
      * @param userId the user
      * @param limit the maximum number of contacts to return
      * */
-    fun getUserContacts(userId: String, limit: Long): List<UserEntity>
+    suspend fun findUserContacts(query: String?, userId: String, limit: Long): List<User>
 
     /**
      * Create a new entry in the remote and local database with [user] information

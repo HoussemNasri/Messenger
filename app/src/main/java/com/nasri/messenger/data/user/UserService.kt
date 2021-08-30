@@ -6,6 +6,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.nasri.messenger.data.db.RandomUsers
 import com.nasri.messenger.data.firebase.FirebaseConstants
 import com.nasri.messenger.data.firebase.toUserData
+import com.nasri.messenger.domain.user.User
 import java.lang.IllegalStateException
 import java.time.Instant
 import java.util.concurrent.TimeUnit
@@ -150,27 +151,20 @@ open class UserData internal constructor(
 ) {
     data class Contact(
         val cId: String,
-        val cName: String,
-        val cAvatarUrl: String,
+        val cName: String?,
+        val cAvatarUrl: String?,
         val cEmail: String?,
         val cLastSignedIn: Long
     ) : UserData(cId, cName, cAvatarUrl, cEmail, cLastSignedIn, null)
 
     data class People(
         val pId: String,
-        val pName: String,
-        val pAvatarUrl: String,
+        val pName: String?,
+        val pAvatarUrl: String?,
     ) : UserData(pId, pName, pAvatarUrl, null, null, null)
 }
 
-fun UserData.mapToContact(): UserData.Contact =
-    UserData.Contact(id, "name", "avatarUrl", email, lastSignedIn ?: -1)
-
-fun UserData.mapToPeople(): UserData.People = UserData.People(id, "name", "avatarUrl")
-
-fun UserData.mapToUserEntity(): UserEntity = UserEntity()
-
-
+fun UserData.mapToUser() = User(email, phone, id, name, lastSignedIn, avatarUrl)
 
 
 

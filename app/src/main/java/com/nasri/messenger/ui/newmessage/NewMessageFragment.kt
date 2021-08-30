@@ -12,9 +12,11 @@ import com.nasri.messenger.data.user.*
 import com.nasri.messenger.databinding.FragmentNewMessageBinding
 import com.nasri.messenger.domain.result.Result
 import com.nasri.messenger.domain.user.SearchUsersUseCase
+import com.nasri.messenger.domain.user.User
 import com.nasri.messenger.ui.base.BaseFragment
 import io.github.luizgrp.sectionedrecyclerviewadapter.Section
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter
+import java.lang.IllegalStateException
 
 
 class NewMessageFragment : BaseFragment() {
@@ -28,15 +30,15 @@ class NewMessageFragment : BaseFragment() {
     private lateinit var morePeopleSection: MorePeopleSection
 
     val viewModel: NewMessageViewModel by viewModels {
-        val dummyService = DummyUserService()
-        val userId = preferenceStorage.getCurrentUser()?.uid ?: ""
+        val userService: UserService = DummyUserService()
+        val currentUserId = preferenceStorage.getCurrentUser()?.uid
+            ?: throw IllegalStateException("Cannot get CurrentUser id")
 
-        val contactRepository = ContactRepository(userId, dummyService)
-        val peopleRepository = PeopleRepository(dummyService)
+        val userRepository = UserRepositoryImpl(userService)
 
-        val searchUsersUseCase = SearchUsersUseCase(contactRepository, peopleRepository)
+        val searchUsersUseCase = SearchUsersUseCase(userRepository)
 
-        NewMessageViewModelFactory(userId, searchUsersUseCase)
+        NewMessageViewModelFactory(currentUserId, searchUsersUseCase)
     }
 
     override fun onCreateView(
@@ -65,12 +67,9 @@ class NewMessageFragment : BaseFragment() {
             hideLoadingForAllSections()
             when (it) {
                 is Result.Success -> {
-                    suggestedSection.setData(it.data!!.contacts.map { contact ->
-                        toPeopleItem(
-                            contact
-                        )
-                    })
-                    morePeopleSection.setData(it.data!!.people.map { people -> toPeopleItem(people) })
+                    val data = it.data
+                    suggestedSection.setData(data.contacts.map(this::toPeopleItem))
+                    morePeopleSection.setData(data.people.map(this::toPeopleItem))
                     sectionsAdapter.notifyDataSetChanged()
                 }
                 is Result.Loading -> {
@@ -124,8 +123,8 @@ class NewMessageFragment : BaseFragment() {
         }
     }
 
-    private fun toPeopleItem(userData: UserData): PeopleItem {
-        return PeopleItem(userData.name!!, Uri.parse(userData.avatarUrl))
+    private fun toPeopleItem(user: User): PeopleItem {
+        return PeopleItem(user.username!!, Uri.parse(user.photoUrl))
     }
 
 }
