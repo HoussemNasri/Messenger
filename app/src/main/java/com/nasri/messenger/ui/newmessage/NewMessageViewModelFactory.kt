@@ -9,7 +9,7 @@ class NewMessageViewModelFactory(
     private val currentUserId: String,
     private val searchUsersUseCase: SearchUsersUseCase
 ) : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(NewMessageViewModel::class.java)) {
             Timber.d("Create new NewMessageViewModel instance")
             return NewMessageViewModel(currentUserId, searchUsersUseCase) as T

@@ -7,7 +7,7 @@ import com.nasri.messenger.domain.chat.LoadRecentChatsUseCase
 class ChatsViewModelFactory(
     private val loadRecentChatsUseCase: LoadRecentChatsUseCase
 ) : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ChatsViewModel::class.java)) {
             return ChatsViewModel(loadRecentChatsUseCase) as T
         }

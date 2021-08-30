@@ -11,7 +11,7 @@ import timber.log.Timber
 class SignInViewModelFactory(
     private val signInUseCase: SignInUseCase
 ) : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SignInViewModel::class.java)) {
             Timber.d("Create new SignInViewModel instance")
             return SignInViewModel(signInUseCase) as T
