@@ -74,7 +74,7 @@ class FirebaseAuthRepository(
 
     override suspend fun signUp(email: String, password: String, photoUrl: String?) {
         if (userRepository.isUserExists(email)) {
-            throw UserAlreadyExistsException()
+            throw UserAlreadyExistsException("User already exists")
         } else {
             val signUpTask = auth.createUserWithEmailAndPassword(email, password)
             val result = await(signUpTask)

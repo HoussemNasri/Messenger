@@ -9,17 +9,35 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.nasri.messenger.data.SharedPreferenceStorage
+import com.nasri.messenger.data.user.FirebaseAuthRepository
+import com.nasri.messenger.data.user.FirebaseUserService
+import com.nasri.messenger.data.user.UserRepositoryImpl
 import com.nasri.messenger.databinding.FragmentSignUpBinding
+import com.nasri.messenger.domain.auth.signin.SignInUseCase
+import com.nasri.messenger.domain.auth.signup.SignUpUseCase
 import com.nasri.messenger.domain.inputvalidation.EmailVerifier
 import com.nasri.messenger.domain.inputvalidation.PasswordVerifier
+import com.nasri.messenger.domain.result.Result
 import com.nasri.messenger.domain.result.succeeded
+import com.nasri.messenger.ui.auth.signin.SignInViewModelFactory
 import com.nasri.messenger.ui.base.BaseFragment
 import timber.log.Timber
 
 
 class SignUpFragment : BaseFragment() {
     private lateinit var binding: FragmentSignUpBinding
-    private val viewModel: SignUpViewModel by viewModels()
+    private val viewModel: SignUpViewModel by viewModels {
+        val auth = FirebaseAuth.getInstance()
+        val userService = FirebaseUserService(FirebaseFirestore.getInstance())
+        val userRepository = UserRepositoryImpl(userService)
+        val authRepository = FirebaseAuthRepository(
+            auth, userRepository, SharedPreferenceStorage(requireContext())
+        )
+        SignUpViewModelFactory(SignUpUseCase(authRepository))
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,26 +78,28 @@ class SignUpFragment : BaseFragment() {
 
         }
 
-        viewModel.userSignedUp.observe(viewLifecycleOwner, Observer {
-            if (it.succeeded) {
-                Toast.makeText(requireContext(), "User Registered successfully", Toast.LENGTH_LONG)
-                    .show()
-                findNavController().navigateUp()
-            } else {
-                Toast.makeText(
-                    requireContext(),
-                    it.exceptionOrNull()?.message ?: "Unknown error!",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        })
-
-        viewModel.showProgress.observe(viewLifecycleOwner, {
-            Timber.d("Context : %s", context.toString())
-            if (it) {
-                dialogManager.showProgressDialog()
-            } else {
-                dialogManager.hideProgressDialog()
+        viewModel.userSignedUpEvent.observe(viewLifecycleOwner, {
+            dialogManager.hideProgressDialog()
+            when (it) {
+                is Result.Success -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "User Registered successfully",
+                        Toast.LENGTH_LONG
+                    )
+                        .show()
+                    findNavController().navigateUp()
+                }
+                is Result.Error -> {
+                    Toast.makeText(
+                        requireContext(),
+                        it.exceptionOrNull()?.message ?: "Unknown error!",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                is Result.Loading -> {
+                    dialogManager.showProgressDialog()
+                }
             }
         })
     }
