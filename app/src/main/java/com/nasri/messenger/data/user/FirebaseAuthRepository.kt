@@ -52,7 +52,12 @@ class FirebaseAuthRepository(
     private suspend fun onSignInSucceed(authResult: AuthResult?) {
         if (authResult != null) {
             val signedInUser = FirebaseCurrentUser(authResult.user!!)
-            userRepository.insertUser(user(signedInUser))
+            if (!userRepository.isUserExists(signedInUser.email!!)) {
+                userRepository.insertUser(user(signedInUser))
+            } else {
+                //TODO('Update User Information like: lastSingedIn...')
+                Timber.d("User Exists, No need to create a new one")
+            }
             setCurrentUser(signedInUser)
         } else {
             throw NullPointerException("Firebase AuthResult is null")

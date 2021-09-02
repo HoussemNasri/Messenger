@@ -28,7 +28,7 @@ interface UserRepository {
     suspend fun findUserContacts(query: String?, userId: String, limit: Long): List<User>
 
     /**
-     * Create a new entry in the remote and local database with [user] information
+     * Create a new entry in the remote database with [user] information
      * */
     suspend fun insertUser(user: User)
 
