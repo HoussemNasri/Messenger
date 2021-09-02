@@ -1,7 +1,9 @@
 package com.nasri.messenger.ui.home
 
+import android.graphics.Color
 import android.os.Bundle
-import android.view.Menu
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -45,11 +47,13 @@ class MainActivity : BaseActivity() {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
         binding.navView.setupWithNavController(navController)
 
+        setLogoutMenuItemTextColorToRed()
+
         binding.navView.setNavigationItemSelectedListener {
             Timber.d("Menu Clicked")
             when (it.itemId) {
                 R.id.nav_logout -> {
-                    // TODO ('Logout user from all providers and cleanup user data')
+                    // TODO ('The Logout code should be in [MainActivityViewModel]')
                     GlobalScope.launch(Dispatchers.Main) {
                         RegistrationUtil.signOutAllProviders(this@MainActivity)
                         navController.navigate(R.id.action_chatsFragment_to_registrationActivity)
@@ -61,6 +65,13 @@ class MainActivity : BaseActivity() {
             false
         }
 
+    }
+
+    private fun setLogoutMenuItemTextColorToRed() {
+        val logoutItem = binding.navView.menu.findItem(R.id.nav_logout)
+        val spannable = SpannableString(logoutItem.title.toString())
+        spannable.setSpan(ForegroundColorSpan(Color.parseColor("#F03A3A")), 0, spannable.length, 0)
+        logoutItem.title = spannable
     }
 
     override fun onSupportNavigateUp(): Boolean {
