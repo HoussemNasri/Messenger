@@ -93,4 +93,8 @@ dependencies {
 
     //Paging 3.0
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
+
+    implementation 'com.github.kittinunf.fuel:fuel:2.3.1'
+    implementation 'com.github.kittinunf.fuel:fuel-android:2.3.1'
+
 }
