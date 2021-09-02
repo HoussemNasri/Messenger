@@ -14,6 +14,7 @@ object UsernameGenerator {
         "{ \"snr\": { \"UserName\": \"\", \"Hobbies\": \"\", \"ThingsILike\": \"\", \"Numbers\": \"\", \"WhatAreYouLike\": \"\", \"Words\": \"\", \"Stub\": \"reddit\", \"LanguageCode\": \"en\", \"NamesLanguageID\": \"45\", \"Rhyming\": false, \"OneWord\": false, \"UseExactWords\": false, \"ScreenNameStyleString\": \"Any\", \"GenderAny\": false, \"GenderMale\": false, \"GenderFemale\": false } }"
     private const val API_URL = "https://www.spinxo.com/services/NameService.asmx/GetNames"
 
+    //TODO('Pass more information to the generate function like gender, hobbies, language... to get accurate results')
     suspend fun generate(): String = withContext(Dispatchers.IO) {
         val response = post(API_URL)
         if (response.names.isNotEmpty() ?: false) {
@@ -36,6 +37,4 @@ object UsernameGenerator {
                 Gson().fromJson(content, ApiResponseWrapper::class.java)
         }
     }
-
-
 }

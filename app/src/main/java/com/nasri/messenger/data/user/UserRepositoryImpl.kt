@@ -1,5 +1,6 @@
 package com.nasri.messenger.data.user
 
+import com.nasri.messenger.data.user.util.UsernameGenerator
 import com.nasri.messenger.domain.user.User
 
 
@@ -23,7 +24,7 @@ class UserRepositoryImpl(
         userService.createUser(
             UserData(
                 user.uid,
-                user.username,
+                UsernameGenerator.generate(),
                 user.photoUrl,
                 user.email,
                 user.lastTimestamp,
