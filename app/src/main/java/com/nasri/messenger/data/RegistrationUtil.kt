@@ -1,10 +1,13 @@
 package com.nasri.messenger.data
 
 import android.app.Activity
+import android.content.Context
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -12,9 +15,9 @@ import java.util.concurrent.TimeUnit
 
 object RegistrationUtil {
 
-     fun signOutGoogle(activity: Activity) {
+    fun signOutGoogle(context: Context) {
         val googleSignInClient = GoogleSignIn.getClient(
-            activity,
+            context,
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
         )
         Timber.d("Sign Out Google")
@@ -34,9 +37,9 @@ object RegistrationUtil {
         preferenceStorage.removeCurrentUser()
     }
 
-    suspend fun signOutAllProviders(activity: Activity) {
+    suspend fun signOutAllProviders(context: Context) {
         withContext(Dispatchers.IO) {
-            val preferenceStorage = SharedPreferenceStorage(activity)
+            val preferenceStorage = SharedPreferenceStorage(context)
             if (preferenceStorage.isUserLoggedIn) {
                 signOutLocalProvider(preferenceStorage)
             }
@@ -44,14 +47,13 @@ object RegistrationUtil {
             providerData.forEach {
                 val providerId = it.providerId
                 when (Provider.parse(providerId)) {
-                    Provider.GOOGLE -> signOutGoogle(activity)
+                    Provider.GOOGLE -> signOutGoogle(context)
                     Provider.FIREBASE -> signOutFirebase()
                     Provider.FACEBOOK -> signOutFacebook()
                     Provider.UNKNOWN -> Timber.d("signOutAllProviders : UnknownProvider")
                 }
             }
         }
-
     }
 
 }

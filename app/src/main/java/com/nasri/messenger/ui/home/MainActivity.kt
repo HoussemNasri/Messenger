@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import androidx.activity.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -11,9 +12,16 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.nasri.messenger.R
 import com.nasri.messenger.data.RegistrationUtil
+import com.nasri.messenger.data.SharedPreferenceStorage
+import com.nasri.messenger.data.user.FirebaseAuthRepository
+import com.nasri.messenger.data.user.FirebaseUserService
+import com.nasri.messenger.data.user.UserRepositoryImpl
 import com.nasri.messenger.databinding.ActivityMainBinding
+import com.nasri.messenger.domain.result.EventObserver
 import com.nasri.messenger.ui.base.BaseActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -24,7 +32,15 @@ class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navController: NavController
-
+    private val viewModel: MainActivityViewModel by viewModels {
+        val auth = FirebaseAuth.getInstance()
+        val userService = FirebaseUserService(FirebaseFirestore.getInstance())
+        val userRepository = UserRepositoryImpl(userService)
+        val authRepository = FirebaseAuthRepository(
+            auth, userRepository, SharedPreferenceStorage(applicationContext)
+        )
+        MainActivityViewModelFactory(authRepository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +48,6 @@ class MainActivity : BaseActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar2.root)
-
 
         val host: NavHostFragment = supportFragmentManager
             .findFragmentById(R.id.main_nav_host_fragment) as NavHostFragment? ?: return
@@ -50,20 +65,22 @@ class MainActivity : BaseActivity() {
         setLogoutMenuItemTextColorToRed()
 
         binding.navView.setNavigationItemSelectedListener {
-            Timber.d("Menu Clicked")
             when (it.itemId) {
                 R.id.nav_logout -> {
-                    // TODO ('The Logout code should be in [MainActivityViewModel]')
-                    GlobalScope.launch(Dispatchers.Main) {
-                        RegistrationUtil.signOutAllProviders(this@MainActivity)
-                        navController.navigate(R.id.action_chatsFragment_to_registrationActivity)
-                        finish()
-                        Timber.d("Logout")
-                    }
+                    viewModel.signOut()
                 }
             }
             false
         }
+
+        viewModel.navigationActions.observe(this, EventObserver {
+            when (it) {
+                is MainNavigationAction.NavigateToRegistrationActivityAction -> {
+                    navController.navigate(R.id.action_chatsFragment_to_registrationActivity)
+                }
+            }
+            finish()
+        })
 
     }
 

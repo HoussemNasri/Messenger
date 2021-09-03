@@ -6,6 +6,8 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.nasri.messenger.data.PreferenceStorage
 import com.nasri.messenger.domain.user.CurrentUser
 import com.nasri.messenger.domain.user.FirebaseCurrentUser
@@ -19,13 +21,13 @@ class FirebaseAuthRepository(
     private val userRepository: UserRepository,
     private val preferenceStorage: PreferenceStorage
 ) : IAuthRepository {
-    override suspend fun setCurrentUser(currentUser: CurrentUser) {
+    private fun setCurrentUser(currentUser: CurrentUser) {
         preferenceStorage.setCurrentUser(currentUser)
     }
 
     override suspend fun getCurrentUser(): CurrentUser? = preferenceStorage.getCurrentUser()
 
-    override fun removeCurrentUser() {
+    private fun removeCurrentUser() {
         preferenceStorage.removeCurrentUser()
     }
 
@@ -88,6 +90,14 @@ class FirebaseAuthRepository(
             } else {
                 throw signUpTask.exception!!
             }
+        }
+    }
+
+    override suspend fun signOut(onSignOutComplete: () -> Unit) {
+        Firebase.auth.signOut()
+        removeCurrentUser()
+        Firebase.auth.addAuthStateListener {
+            onSignOutComplete()
         }
     }
 
