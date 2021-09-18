@@ -1,8 +1,8 @@
 package com.nasri.messenger.domain
 
+import com.nasri.messenger.domain.result.Result
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
-import com.nasri.messenger.domain.result.Result
 import timber.log.Timber
 
 /**

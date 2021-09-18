@@ -10,7 +10,6 @@ import com.nasri.messenger.domain.auth.signin.SignInUseCase
 import com.nasri.messenger.domain.result.Result
 import com.nasri.messenger.ui.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 

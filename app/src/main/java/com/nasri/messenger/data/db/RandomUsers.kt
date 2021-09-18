@@ -2,7 +2,6 @@ package com.nasri.messenger.data.db
 
 import com.nasri.messenger.data.user.UserData
 import java.util.*
-import kotlin.collections.ArrayList
 
 class RandomUsers {
 

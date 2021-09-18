@@ -18,7 +18,6 @@ package com.nasri.messenger.domain.result
 
 import androidx.lifecycle.MutableLiveData
 import com.nasri.messenger.domain.result.Result.Success
-import java.lang.Error
 
 /**
  * A generic class that holds a value with its loading status.

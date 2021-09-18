@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -16,15 +15,11 @@ import com.nasri.messenger.data.user.FirebaseAuthRepository
 import com.nasri.messenger.data.user.FirebaseUserService
 import com.nasri.messenger.data.user.UserRepositoryImpl
 import com.nasri.messenger.databinding.FragmentSignUpBinding
-import com.nasri.messenger.domain.auth.signin.SignInUseCase
 import com.nasri.messenger.domain.auth.signup.SignUpUseCase
 import com.nasri.messenger.domain.inputvalidation.EmailVerifier
 import com.nasri.messenger.domain.inputvalidation.PasswordVerifier
 import com.nasri.messenger.domain.result.Result
-import com.nasri.messenger.domain.result.succeeded
-import com.nasri.messenger.ui.auth.signin.SignInViewModelFactory
 import com.nasri.messenger.ui.base.BaseFragment
-import timber.log.Timber
 
 
 class SignUpFragment : BaseFragment() {

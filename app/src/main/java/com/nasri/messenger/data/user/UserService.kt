@@ -7,7 +7,6 @@ import com.nasri.messenger.data.db.RandomUsers
 import com.nasri.messenger.data.firebase.FirebaseConstants
 import com.nasri.messenger.data.firebase.toUserData
 import com.nasri.messenger.domain.user.User
-import java.lang.IllegalStateException
 import java.time.Instant
 import java.util.concurrent.TimeUnit
 

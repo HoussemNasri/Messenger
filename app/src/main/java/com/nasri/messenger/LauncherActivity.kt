@@ -9,16 +9,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.GsonBuilder
 import com.nasri.messenger.LaunchDestination.MAIN_ACTIVITY
 import com.nasri.messenger.LaunchDestination.REGISTRATION
-import com.nasri.messenger.data.gson.UserInfoGsonAdapter
 import com.nasri.messenger.data.gson.UriTypeAdapter
-import com.nasri.messenger.data.user.util.UsernameGenerator
+import com.nasri.messenger.data.gson.UserInfoGsonAdapter
 import com.nasri.messenger.domain.prefs.UserLoggedInUseCase
+import com.nasri.messenger.ui.auth.RegistrationActivity
 import com.nasri.messenger.ui.base.BaseActivity
 import com.nasri.messenger.ui.home.MainActivity
-import com.nasri.messenger.ui.auth.RegistrationActivity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import timber.log.Timber
 
 

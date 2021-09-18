@@ -1,7 +1,6 @@
 package com.nasri.messenger.data.firebase
 
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.nasri.messenger.data.user.UserData
 
 fun DocumentSnapshot.toUserData(): UserData =

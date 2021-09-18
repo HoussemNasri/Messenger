@@ -3,14 +3,14 @@ package com.nasri.messenger.ui.newmessage
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.nasri.messenger.domain.user.UserSearchResponse
+import com.nasri.messenger.domain.result.Result
 import com.nasri.messenger.domain.user.SearchUsersUseCase
+import com.nasri.messenger.domain.user.UserSearchResponse
 import com.nasri.messenger.domain.user.UserSearchUseCaseParams
 import com.nasri.messenger.ui.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import com.nasri.messenger.domain.result.Result
 import timber.log.Timber
 
 class NewMessageViewModel(

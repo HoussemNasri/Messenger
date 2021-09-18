@@ -1,6 +1,5 @@
 package com.nasri.messenger.domain.chat
 
-import android.net.Uri
 import java.util.*
 
 /**

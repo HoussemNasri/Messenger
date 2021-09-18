@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.nasri.messenger.data.user.*
+import com.nasri.messenger.data.user.DummyUserService
+import com.nasri.messenger.data.user.UserRepositoryImpl
+import com.nasri.messenger.data.user.UserService
 import com.nasri.messenger.databinding.FragmentNewMessageBinding
 import com.nasri.messenger.domain.result.Result
 import com.nasri.messenger.domain.user.SearchUsersUseCase
@@ -16,7 +18,6 @@ import com.nasri.messenger.domain.user.User
 import com.nasri.messenger.ui.base.BaseFragment
 import io.github.luizgrp.sectionedrecyclerviewadapter.Section
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter
-import java.lang.IllegalStateException
 
 
 class NewMessageFragment : BaseFragment() {

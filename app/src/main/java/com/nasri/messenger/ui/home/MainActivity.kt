@@ -15,7 +15,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.nasri.messenger.R
-import com.nasri.messenger.data.RegistrationUtil
 import com.nasri.messenger.data.SharedPreferenceStorage
 import com.nasri.messenger.data.user.FirebaseAuthRepository
 import com.nasri.messenger.data.user.FirebaseUserService
@@ -23,10 +22,6 @@ import com.nasri.messenger.data.user.UserRepositoryImpl
 import com.nasri.messenger.databinding.ActivityMainBinding
 import com.nasri.messenger.domain.result.EventObserver
 import com.nasri.messenger.ui.base.BaseActivity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding

@@ -4,8 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.nasri.messenger.domain.prefs.UserLoggedInUseCase
 import com.nasri.messenger.domain.result.data
-import com.nasri.messenger.domain.result.succeeded
-import timber.log.Timber
 
 class LaunchViewModel constructor(
     private val userLoggedInUseCase: UserLoggedInUseCase

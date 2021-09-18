@@ -1,7 +1,5 @@
 package com.nasri.messenger.data.firebase
 
-import com.nasri.messenger.data.user.UserData
-
 class FirebaseConstants {
     companion object {
         const val FIRE_PHOTO_URL = "photoUrl"
