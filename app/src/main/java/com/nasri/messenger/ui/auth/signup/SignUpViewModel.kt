@@ -3,6 +3,7 @@ package com.nasri.messenger.ui.auth.signup
 import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.OnCanceledListener
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
@@ -31,7 +32,7 @@ class SignUpViewModel(
 
     @SuppressLint("NullSafeMutableLiveData")
     fun signUpWithEmailAndPassword(email: String, password: String) {
-        GlobalScope.launch(Dispatchers.Main) {
+        viewModelScope.launch(Dispatchers.Main) {
             _userSignedUpEvent.postValue(Result.Loading)
             _userSignedUpEvent.postValue(signUpUseCase(SignUpUseCaseParams(email, password)))
         }

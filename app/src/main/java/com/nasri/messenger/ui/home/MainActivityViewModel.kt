@@ -17,6 +17,7 @@ class MainActivityViewModel(
 
     val navigationActions: LiveData<Event<MainNavigationAction>> = _navigationActions
 
+    // We are using GlobalScope because signOut is a transaction, it can't be stopped halfway
     fun signOut() = GlobalScope.launch(Dispatchers.IO) {
         authRepository.signOut {
             _navigationActions.postValue(Event(MainNavigationAction.NavigateToRegistrationActivityAction))
