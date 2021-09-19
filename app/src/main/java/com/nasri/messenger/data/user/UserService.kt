@@ -100,9 +100,7 @@ class FirebaseUserService(
     override suspend fun createUser(userData: UserData) {
         val basicUserInfo = hashMapOf(
             FirebaseConstants.FIRE_USERNAME to (userData.name ?: "Jhon Doe"),
-            FirebaseConstants.FIRE_PHOTO_URL to (userData.avatarUrl ?: doGenerateRandomAvatar(
-                userData.id
-            )),
+            FirebaseConstants.FIRE_PHOTO_URL to (userData.avatarUrl),
             FirebaseConstants.FIRE_LAST_SIGN_IN to userData.lastSignedIn,
             FirebaseConstants.FIRE_EMAIL to userData.email,
             FirebaseConstants.FIRE_ACCOUNT_CREATION to Instant.now().epochSecond,
@@ -114,10 +112,6 @@ class FirebaseUserService(
         if (!createUserTask.isSuccessful) {
             throw createUserTask.exception!!
         }
-    }
-
-    private fun doGenerateRandomAvatar(seed: String?): String {
-        return "https://avatars.dicebear.com/api/bottts/${seed ?: 123}.svg"
     }
 
     private fun await(task: Task<out Any>) {

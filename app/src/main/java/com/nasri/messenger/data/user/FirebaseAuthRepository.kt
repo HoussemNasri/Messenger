@@ -1,5 +1,6 @@
 package com.nasri.messenger.data.user
 
+import android.net.Uri
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.AuthCredential
@@ -7,8 +8,10 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
 import com.nasri.messenger.data.PreferenceStorage
+import com.nasri.messenger.data.user.util.UsernameGenerator
 import com.nasri.messenger.domain.user.CurrentUser
 import com.nasri.messenger.domain.user.FirebaseCurrentUser
 import com.nasri.messenger.domain.user.User
@@ -51,33 +54,26 @@ class FirebaseAuthRepository(
         }
     }
 
-    private suspend fun onSignInSucceed(authResult: AuthResult?) {
-        if (authResult != null) {
-            val signedInUser = FirebaseCurrentUser(authResult.user!!)
-            if (!userRepository.isUserExists(signedInUser.email!!)) {
-                userRepository.insertUser(user(signedInUser))
-            } else {
-                //TODO('Update User Information like: lastSingedIn...')
-                Timber.d("User Exists, No need to create a new one")
-            }
-            setCurrentUser(signedInUser)
-        } else {
+    private suspend fun onSignInSucceed(result: AuthResult?) {
+        if (result == null) {
             throw NullPointerException("Firebase AuthResult is null")
         }
+
+        val user: FirebaseUser = result.user!!
+        if (!userRepository.isUserExists(user.email!!)) {
+            val username = doGenerateUsername()
+            val photoUrl = doGenerateRandomAvatarUrlForUser(user.uid)
+            updateUserProfile(user, username, photoUrl)
+            saveUserDataToDatabase(user, username, photoUrl)
+        } else {
+            //TODO('Update User Information like: lastSingedIn...')
+        }
+        setCurrentUser(FirebaseCurrentUser(auth.currentUser!!))
     }
 
     private fun <TResult> await(task: Task<TResult>): TResult {
         return Tasks.await(task, 10, TimeUnit.SECONDS)
     }
-
-    private fun user(currentUser: FirebaseCurrentUser) = User(
-        currentUser.email,
-        currentUser.phone,
-        currentUser.uid!!,
-        currentUser.username,
-        currentUser.lastTimestamp,
-        currentUser.photoUrl
-    )
 
     override suspend fun signUp(email: String, password: String, photoUrl: String?) {
         if (userRepository.isUserExists(email)) {
@@ -86,11 +82,44 @@ class FirebaseAuthRepository(
             val signUpTask = auth.createUserWithEmailAndPassword(email, password)
             val result = await(signUpTask)
             if (signUpTask.isSuccessful) {
-                userRepository.insertUser(firebaseUserToUser(result.user!!, photoUrl))
+                val user: FirebaseUser = result.user!!
+                val username = doGenerateUsername()
+                val photoUrl2 = photoUrl ?: doGenerateRandomAvatarUrlForUser(user.uid)
+                updateUserProfile(user, username, photoUrl2)
+                saveUserDataToDatabase(
+                    user,
+                    username,
+                    photoUrl2
+                )
             } else {
                 throw signUpTask.exception!!
             }
         }
+    }
+
+    private fun updateUserProfile(user: FirebaseUser, username: String, photoUrl: String) {
+        val profileUpdates = userProfileChangeRequest {
+            displayName = username
+            photoUri = Uri.parse(photoUrl)
+        }
+        await(user.updateProfile(profileUpdates))
+    }
+
+    private suspend fun doGenerateUsername(): String = UsernameGenerator.generate()
+
+    /**
+     * [userId] this id will act like seed for our random function
+     * */
+    private fun doGenerateRandomAvatarUrlForUser(userId: String): String {
+        return "https://avatars.dicebear.com/api/bottts/$userId.svg"
+    }
+
+    private suspend fun saveUserDataToDatabase(
+        firebaseUser: FirebaseUser,
+        username: String,
+        photoUrl: String
+    ) {
+        userRepository.insertUser(mapFirebaseUserToUser(firebaseUser, username, photoUrl))
     }
 
     override suspend fun signOut(onSignOutComplete: () -> Unit) {
@@ -101,14 +130,18 @@ class FirebaseAuthRepository(
         }
     }
 
-    private fun firebaseUserToUser(firebaseUser: FirebaseUser, photoUrl: String? = null): User {
+    private fun mapFirebaseUserToUser(
+        firebaseUser: FirebaseUser,
+        username: String,
+        photoUrl: String
+    ): User {
         return User(
             firebaseUser.email,
             firebaseUser.phoneNumber,
             firebaseUser.uid,
-            firebaseUser.displayName,
+            username,
             firebaseUser.metadata?.lastSignInTimestamp,
-            firebaseUser.photoUrl?.toString() ?: photoUrl
+            photoUrl
         )
     }
 
