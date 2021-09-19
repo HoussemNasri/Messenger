@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import android.view.LayoutInflater
 import androidx.activity.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -12,6 +13,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.nasri.messenger.R
@@ -20,11 +22,20 @@ import com.nasri.messenger.data.user.FirebaseAuthRepository
 import com.nasri.messenger.data.user.FirebaseUserService
 import com.nasri.messenger.data.user.UserRepositoryImpl
 import com.nasri.messenger.databinding.ActivityMainBinding
+import com.nasri.messenger.databinding.NavHeaderMainBinding
 import com.nasri.messenger.domain.result.EventObserver
 import com.nasri.messenger.ui.base.BaseActivity
+import timber.log.Timber
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+
+import android.graphics.drawable.PictureDrawable
+import android.net.Uri
+import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
+
 
 class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var navHeaderBinding: NavHeaderMainBinding
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navController: NavController
     private val viewModel: MainActivityViewModel by viewModels {
@@ -41,8 +52,11 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
+        navHeaderBinding =
+            NavHeaderMainBinding.bind(binding.navView.getHeaderView(0))
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar2.root)
+        setLogoutMenuItemTextColorToRed()
 
         val host: NavHostFragment = supportFragmentManager
             .findFragmentById(R.id.main_nav_host_fragment) as NavHostFragment? ?: return
@@ -57,7 +71,6 @@ class MainActivity : BaseActivity() {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
         binding.navView.setupWithNavController(navController)
 
-        setLogoutMenuItemTextColorToRed()
 
         binding.navView.setNavigationItemSelectedListener {
             when (it.itemId) {
@@ -76,6 +89,18 @@ class MainActivity : BaseActivity() {
             }
             finish()
         })
+
+        viewModel.currentUser.observe(this, {
+            navHeaderBinding.navUserName.text = it.username
+            navHeaderBinding.navUserEmail.text = it.email
+            GlideToVectorYou.justLoadImage(
+                this,
+                Uri.parse(it.photoUrl),
+                navHeaderBinding.navUserAvatar
+            )
+
+        })
+
 
     }
 
