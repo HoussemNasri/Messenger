@@ -101,7 +101,6 @@ class MainActivity : BaseActivity() {
 
         })
 
-
     }
 
     private fun setLogoutMenuItemTextColorToRed() {

@@ -25,7 +25,6 @@ class SignInViewModel(
     /** Sign In using email and password */
     @SuppressLint("NullSafeMutableLiveData")
     fun performEmailSignIn(email: String, password: String) {
-        // TODO('Use a custom coroutine scope')
         viewModelScope.launch(Dispatchers.Main) {
             _userSignedInEvent.postValue(Result.Loading)
             _userSignedInEvent.postValue(

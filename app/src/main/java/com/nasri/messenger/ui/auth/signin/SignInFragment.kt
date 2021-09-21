@@ -22,7 +22,6 @@ import com.klinker.android.link_builder.Link
 import com.klinker.android.link_builder.applyLinks
 import com.nasri.messenger.R
 import com.nasri.messenger.data.SharedPreferenceStorage
-import com.nasri.messenger.data.firebase.FirebaseConstants.*
 import com.nasri.messenger.data.user.FirebaseAuthRepository
 import com.nasri.messenger.data.user.FirebaseUserService
 import com.nasri.messenger.data.user.UserRepositoryImpl
