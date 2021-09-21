@@ -1,9 +1,11 @@
+
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'com.google.gms.google-services'
-}
 
+}
+apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -89,7 +91,7 @@ dependencies {
 
     //Glide
     implementation "com.github.bumptech.glide:glide:$glide_version"
-    annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
+    //annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
 
     //Paging 3.0
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
@@ -98,6 +100,10 @@ dependencies {
     implementation 'com.github.kittinunf.fuel:fuel-android:2.3.1'
 
     //Adds SVG image loading
-    implementation 'com.github.corouteam:GlideToVectorYou:v2.0.0'
+    //implementation 'com.github.corouteam:GlideToVectorYou:v2.0.0'
+
+    implementation 'com.github.qoqa:glide-svg:2.0.4'
+
+    kapt 'com.github.bumptech.glide:compiler:4.12.0'
 
 }

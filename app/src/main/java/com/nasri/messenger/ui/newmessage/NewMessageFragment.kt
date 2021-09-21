@@ -33,7 +33,7 @@ class NewMessageFragment : BaseFragment() {
     val viewModel: NewMessageViewModel by viewModels {
         val userService: UserService = DummyUserService()
         val currentUserId = preferenceStorage.getCurrentUser()?.uid
-            ?: throw IllegalStateException("Cannot get CurrentUser id")
+                ?: throw IllegalStateException("Cannot get CurrentUser id")
 
         val userRepository = UserRepositoryImpl(userService)
 
@@ -43,8 +43,8 @@ class NewMessageFragment : BaseFragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         binding = FragmentNewMessageBinding.inflate(inflater, container, false)
         return binding.root
@@ -119,8 +119,9 @@ class NewMessageFragment : BaseFragment() {
         if (state == Section.State.LOADED) {
             sectionAdapter.notifyStateChangedFromLoaded(itemsCount)
         } else {
-            if (state != Section.State.LOADING)
+            if (state != Section.State.LOADING) {
                 sectionAdapter.notifyNotLoadedStateChanged(state)
+            }
         }
     }
 

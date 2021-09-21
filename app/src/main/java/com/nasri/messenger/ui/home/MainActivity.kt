@@ -30,7 +30,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 import android.graphics.drawable.PictureDrawable
 import android.net.Uri
-import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
+import com.nasri.messenger.ui.glide.GlideApp
+import com.nasri.messenger.ui.glide.MessengerModule
 
 
 class MainActivity : BaseActivity() {
@@ -93,11 +94,10 @@ class MainActivity : BaseActivity() {
         viewModel.currentUser.observe(this, {
             navHeaderBinding.navUserName.text = it.username
             navHeaderBinding.navUserEmail.text = it.email
-            GlideToVectorYou.justLoadImage(
-                this,
-                Uri.parse(it.photoUrl),
-                navHeaderBinding.navUserAvatar
-            )
+
+            GlideApp.with(this)
+                .load(it.photoUrl)
+                .into(navHeaderBinding.navUserAvatar)
 
         })
 

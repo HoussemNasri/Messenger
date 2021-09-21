@@ -23,7 +23,7 @@ class SearchUsersUseCase(
     private val userRepository: UserRepository
 ) : UseCase<UserSearchUseCaseParams, UserSearchResponse>(Dispatchers.IO) {
     override suspend fun execute(parameters: UserSearchUseCaseParams): UserSearchResponse {
-        delay(5000)
+        delay(850)
         val contacts = userRepository.findUserContacts(
             parameters.query,
             parameters.userId,
